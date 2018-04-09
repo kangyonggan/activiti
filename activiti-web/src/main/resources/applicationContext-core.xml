@@ -4,8 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-    <!--MVC配置-->
-    <import resource="applicationContext-mvc.xml"/>
+    <!--service配置-->
+    <import resource="classpath*:applicationContext-service.xml"/>
     <!--Freemarker配置-->
     <import resource="applicationContext-freemarker.xml"/>
     <!--Shiro权限配置-->

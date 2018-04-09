@@ -10,9 +10,24 @@ import lombok.Getter;
  */
 public enum Status {
 
+    /**
+     * 申请中
+     */
     APPLY("APPLY", "申请中"),
+
+    /**
+     * 已退回
+     */
     BACK("BACK", "已退回"),
+
+    /**
+     * 已拒绝
+     */
     REJECT("REJECT", "已拒绝"),
+
+    /**
+     * 已完成
+     */
     COMPLETE("COMPLETE", "已完成");
 
     /**

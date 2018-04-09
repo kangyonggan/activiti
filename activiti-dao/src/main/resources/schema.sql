@@ -127,6 +127,75 @@ CREATE TABLE tb_role_menu
 )
   COMMENT '角色菜单表';
 
+-- ----------------------------
+--  Table structure for tb_login_log
+-- ----------------------------
+DROP TABLE
+IF EXISTS tb_login_log;
+
+CREATE TABLE tb_login_log
+(
+  id           BIGINT(20) PRIMARY KEY AUTO_INCREMENT NOT NULL
+  COMMENT '主键, 自增',
+  username     VARCHAR(32)                           NOT NULL
+  COMMENT '用户名',
+  ip           VARCHAR(20)                           NOT NULL
+  COMMENT '登录IP',
+  is_deleted   TINYINT                               NOT NULL                    DEFAULT 0
+  COMMENT '逻辑删除:{0:未删除, 1:已删除}',
+  created_time TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP
+  COMMENT '创建时间',
+  updated_time TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '更新时间'
+)
+  COMMENT '章节表';
+CREATE INDEX ix_username
+  ON tb_login_log (username);
+CREATE INDEX ix_created_time
+  ON tb_login_log (created_time);
+
+
+-- ----------------------------
+--  Table structure for tb_monitor
+-- ----------------------------
+DROP TABLE
+IF EXISTS tb_monitor;
+
+CREATE TABLE tb_monitor
+(
+  id               BIGINT(20) PRIMARY KEY AUTO_INCREMENT NOT NULL
+  COMMENT '主键, 自增',
+  app              VARCHAR(32)                           NOT NULL                    DEFAULT ''
+  COMMENT '应用名称',
+  type             VARCHAR(32)                           NOT NULL                    DEFAULT ''
+  COMMENT '监控类型',
+  description      VARCHAR(2048)                         NOT NULL                    DEFAULT ''
+  COMMENT '监控描述',
+  begin_time       TIMESTAMP                             NULL
+  COMMENT '开始时间',
+  end_time         TIMESTAMP                             NULL
+  COMMENT '结束时间',
+  has_return_value TINYINT                               NOT NULL                    DEFAULT 0
+  COMMENT '是否有返回值:{0:没有返回值, 1:有返回值}',
+  return_value     LONGTEXT                              NOT NULL
+  COMMENT '返回值',
+  args             LONGTEXT                              NOT NULL
+  COMMENT '参数',
+  username         VARCHAR(32)                           NOT NULL                    DEFAULT ''
+  COMMENT '用户名',
+  is_deleted       TINYINT                               NOT NULL                    DEFAULT 0
+  COMMENT '逻辑删除:{0:未删除, 1:已删除}',
+  created_time     TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP
+  COMMENT '创建时间',
+  updated_time     TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '更新时间'
+)
+  COMMENT '章节表';
+CREATE INDEX ix_app
+  ON tb_monitor (app);
+CREATE INDEX ix_type
+  ON tb_monitor (type);
+
 #====================初始数据====================#
 
 -- ----------------------------
