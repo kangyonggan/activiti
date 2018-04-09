@@ -5,10 +5,11 @@ import com.kangyonggan.activiti.constants.MonitorType;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.util.MyPageInfo;
 import com.kangyonggan.activiti.util.StringUtil;
-import com.kangyonggan.extra.core.annotation.Log;
 import com.kangyonggan.extra.core.annotation.Monitor;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -38,9 +41,8 @@ public class ActivitiServiceImpl implements ActivitiService {
     private ProcessEngine processEngine;
 
     @Override
-    @Log
-    @Monitor(type = MonitorType.INSERT, description = "保存流程定义${zipPath}")
-    public boolean saveProcessDefinition(String zipPath) {
+    @Monitor(type = MonitorType.INSERT, description = "部署流程定义${zipPath}")
+    public Deployment deployProcessDefinition(String zipPath) {
         DeploymentBuilder deploymentBuilder = processEngine.getRepositoryService().createDeployment();
         ZipInputStream zipInputStream = null;
         try {
@@ -49,21 +51,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 
             // 部署，并返回一个部署对象
             Deployment deployment = deploymentBuilder.deploy();
-            log.info("流程部署成功，id={}", deployment.getId());
-            return true;
+            log.info("流程定义部署成功，deployment={}", deployment);
+            return deployment;
         } catch (FileNotFoundException e) {
-            log.error("流程部署异常", e);
+            log.error("流程定义部署异常", e);
         } finally {
             if (zipInputStream != null) {
                 try {
                     zipInputStream.close();
                 } catch (IOException e) {
-                    log.error("流程部署异常", e);
+                    log.error("流程定义部署异常", e);
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     @Override
@@ -83,16 +85,28 @@ public class ActivitiServiceImpl implements ActivitiService {
         query.orderByDeploymentId().desc();
         List<ProcessDefinition> list = query.listPage((pageNum - 1) * pageSize, pageSize);
 
-        return new MyPageInfo(list, pageNum, pageSize, (int) query.count());
+        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
     }
 
     @Override
-    @Log
-    @Monitor(type = MonitorType.INSERT, description = "保存流程实例${processDefinitionId}")
-    public boolean saveProcessInstance(String processDefinitionId) {
-        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId);
-        log.info("保存流程实例成功, id={}", processInstance.getId());
-        return true;
+    public ProcessInstance startProcessInstance(String processDefinitionId) {
+        return startProcessInstance(processDefinitionId, null);
+    }
+
+    @Override
+    @Monitor(type = MonitorType.INSERT, description = "启动流程实例${processDefinitionId}")
+    public ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables) {
+        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId, variables);
+        log.info("启动流程实例成功, id={}", processInstance.getId());
+        return processInstance;
+    }
+
+    @Override
+    public Task findTaskByInstanceId(String instanceId) {
+        TaskQuery query = processEngine.getTaskService().createTaskQuery();
+        query.processInstanceId(instanceId);
+
+        return query.singleResult();
     }
 
     @Override
@@ -106,15 +120,48 @@ public class ActivitiServiceImpl implements ActivitiService {
         query.orderByTaskId().desc();
         List<Task> list = query.listPage((pageNum - 1) * pageSize, pageSize);
 
-        return new MyPageInfo(list, pageNum, pageSize, (int) query.count());
+        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
     }
 
     @Override
-    @Log
-    @Monitor(type = MonitorType.UPDATE, description = "办理任务${taskId}")
-    public boolean updateTask(String taskId) {
-        processEngine.getTaskService().complete(taskId);
-        log.info("办理任务成功,taskId={}", taskId);
-        return true;
+    public void executeTask(String taskId) {
+        executeTask(taskId, null);
+    }
+
+    @Override
+    @Monitor(type = MonitorType.UPDATE, description = "执行任务${taskId}")
+    public void executeTask(String taskId, Map<String, Object> variables) {
+        processEngine.getTaskService().complete(taskId, variables);
+        log.info("执行任务成功,taskId={}", taskId);
+    }
+
+    @Override
+    public PageInfo<HistoricTaskInstance> searchHistoricTaskInstances(int pageNum, int pageSize, String assignee, Boolean isFinished, Date beginTime, Date endTime) {
+
+        HistoricTaskInstanceQuery query = processEngine.getHistoryService().createHistoricTaskInstanceQuery();
+
+        if (StringUtils.isNotEmpty(assignee)) {
+            query.taskAssignee(assignee);
+        }
+
+        if (beginTime != null) {
+            query.taskCreatedAfter(beginTime);
+        }
+        if (endTime != null) {
+            query.taskCreatedBefore(endTime);
+        }
+
+        if (isFinished != null) {
+            if (isFinished) {
+                query.finished();
+            } else {
+                query.unfinished();
+            }
+        }
+
+        query.orderByTaskCreateTime().desc();
+        List<HistoricTaskInstance> list = query.listPage((pageNum - 1) * pageSize, pageSize);
+
+        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
     }
 }

@@ -1,8 +1,14 @@
 package com.kangyonggan.activiti.service;
 
 import com.github.pagehelper.PageInfo;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * @author kangyonggan
@@ -11,12 +17,12 @@ import org.activiti.engine.task.Task;
 public interface ActivitiService {
 
     /**
-     * 保存流程定义
+     * 部署流程定义
      *
      * @param zipPath
      * @return
      */
-    boolean saveProcessDefinition(String zipPath);
+    Deployment deployProcessDefinition(String zipPath);
 
     /**
      * 搜索流程定义
@@ -31,12 +37,29 @@ public interface ActivitiService {
     PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String id, String name, String key);
 
     /**
-     * 保存流程实例
+     * 启动流程实例
      *
      * @param processDefinitionId
      * @return
      */
-    boolean saveProcessInstance(String processDefinitionId);
+    ProcessInstance startProcessInstance(String processDefinitionId);
+
+    /**
+     * 启动流程实例, 带有参数
+     *
+     * @param processDefinitionId
+     * @param variables
+     * @return
+     */
+    ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables);
+
+    /**
+     * 根据实例ID查找任务
+     *
+     * @param instanceId
+     * @return
+     */
+    Task findTaskByInstanceId(String instanceId);
 
     /**
      * 搜索任务
@@ -49,11 +72,31 @@ public interface ActivitiService {
     PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee);
 
     /**
-     * 办理任务
+     * 执行任务
      *
      * @param taskId
+     */
+    void executeTask(String taskId);
+
+    /**
+     * 执行任务
+     *
+     * @param taskId
+     * @param variables
+     */
+    void executeTask(String taskId, Map<String, Object> variables);
+
+    /**
+     * 搜索历史任务
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param assignee
+     * @param isFinished
+     * @param beginTime
+     * @param endTime
      * @return
      */
-    boolean updateTask(String taskId);
+    PageInfo<HistoricTaskInstance> searchHistoricTaskInstances(int pageNum, int pageSize, String assignee, Boolean isFinished, Date beginTime, Date endTime);
 
 }

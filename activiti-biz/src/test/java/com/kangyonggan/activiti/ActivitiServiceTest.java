@@ -2,13 +2,18 @@ package com.kangyonggan.activiti;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
+import com.kangyonggan.activiti.constants.Status;
 import com.kangyonggan.activiti.service.ActivitiService;
 import lombok.extern.log4j.Log4j2;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author kangyonggan
@@ -21,14 +26,11 @@ public class ActivitiServiceTest extends AbstractServiceTest {
     private ActivitiService activitiService;
 
     /**
-     * 保存流程定义
+     * 部署流程定义
      */
     @Test
-    public void testSaveProcessDefinition() {
-        for (int i = 0; i < 25; i++) {
-            boolean result = activitiService.saveProcessDefinition("/Users/kyg/code/kyg/acti-leave/src/main/resources/leave.zip");
-            Assert.assertTrue(result);
-        }
+    public void testDeployProcessDefinition() {
+        activitiService.deployProcessDefinition("D:\\code\\activiti\\activiti-dao\\src\\main\\resources\\audit.zip");
     }
 
     /**
@@ -36,16 +38,27 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testSearchProcessDefinition() {
-        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(2, AppConstants.PAGE_SIZE, null, "请假", null);
+        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(1, AppConstants.PAGE_SIZE, null, null, null);
         log.info(page);
     }
 
     /**
-     * 保存流程实例
+     * 启动流程实例
      */
     @Test
-    public void testSaveProcessInstance() {
-        Assert.assertTrue(activitiService.saveProcessInstance("leave_process:15:2556"));
+    public void testStartProcessInstance() {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("username", "guest");
+        // 启动实例
+        ProcessInstance processInstance = activitiService.startProcessInstance("audit_process:1:4", variables);
+
+        // 查找任务
+        Task task = activitiService.findTaskByInstanceId(processInstance.getProcessInstanceId());
+
+        // 执行任务
+        variables = new HashMap<>();
+        variables.put("zipFilePath", "D:\\code\\activiti\\activiti-dao\\src\\main\\resources\\audit.zip");
+        activitiService.executeTask(task.getId(), variables);
     }
 
     /**
@@ -53,16 +66,28 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testSearchTasks() {
-        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, null);
+        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, "ROLE_AUDITOR");
         log.info(page);
     }
 
     /**
-     * 办理任务
+     * 执行任务
      */
     @Test
-    public void testUpdateTask() {
-        Assert.assertTrue(activitiService.updateTask("5005"));
+    public void testExecuteTask() {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("status", Status.BACK.getStatus());
+        variables.put("msg", "没给小费");
+        activitiService.executeTask("5010", variables);
+    }
+
+    /**
+     * 搜索历史任务
+     */
+    @Test
+    public void testSearchHistoricTaskInstances() {
+        PageInfo<HistoricTaskInstance> page = activitiService.searchHistoricTaskInstances(1, AppConstants.PAGE_SIZE, null, true, null, null);
+        log.info(page);
     }
 
 }

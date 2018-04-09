@@ -32,6 +32,9 @@
             <tx:method name="update*" propagation="REQUIRED"/>
             <tx:method name="save*" propagation="REQUIRED"/>
             <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="start*" propagation="REQUIRED"/>
+            <tx:method name="execute*" propagation="REQUIRED"/>
+            <tx:method name="deploy*" propagation="REQUIRED"/>
 
             <tx:method name="search*" read-only="true" propagation="REQUIRED"/>
             <tx:method name="find*" read-only="true" propagation="REQUIRED"/>
