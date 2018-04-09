@@ -5,6 +5,7 @@ import com.kangyonggan.activiti.constants.AppConstants;
 import com.kangyonggan.activiti.service.ActivitiService;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,33 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testSearchProcessDefinition() {
-        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinition(2, AppConstants.PAGE_SIZE, null, "请假", null);
+        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(2, AppConstants.PAGE_SIZE, null, "请假", null);
         log.info(page);
+    }
+
+    /**
+     * 保存流程实例
+     */
+    @Test
+    public void testSaveProcessInstance() {
+        Assert.assertTrue(activitiService.saveProcessInstance("leave_process:15:2556"));
+    }
+
+    /**
+     * 搜索任务
+     */
+    @Test
+    public void testSearchTasks() {
+        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, null);
+        log.info(page);
+    }
+
+    /**
+     * 办理任务
+     */
+    @Test
+    public void testUpdateTask() {
+        Assert.assertTrue(activitiService.updateTask("5005"));
     }
 
 }

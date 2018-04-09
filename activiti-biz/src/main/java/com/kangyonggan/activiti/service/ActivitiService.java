@@ -2,6 +2,7 @@ package com.kangyonggan.activiti.service;
 
 import com.github.pagehelper.PageInfo;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 
 /**
  * @author kangyonggan
@@ -27,6 +28,32 @@ public interface ActivitiService {
      * @param key
      * @return
      */
-    PageInfo<ProcessDefinition> searchProcessDefinition(int pageNum, int pageSize, String id, String name, String key);
+    PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String id, String name, String key);
+
+    /**
+     * 保存流程实例
+     *
+     * @param processDefinitionId
+     * @return
+     */
+    boolean saveProcessInstance(String processDefinitionId);
+
+    /**
+     * 搜索任务
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param assignee
+     * @return
+     */
+    PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee);
+
+    /**
+     * 办理任务
+     *
+     * @param taskId
+     * @return
+     */
+    boolean updateTask(String taskId);
 
 }

@@ -13,6 +13,9 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +67,7 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public PageInfo<ProcessDefinition> searchProcessDefinition(int pageNum, int pageSize, String id, String name, String key) {
+    public PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String id, String name, String key) {
         ProcessDefinitionQuery query = processEngine.getRepositoryService().createProcessDefinitionQuery();
 
         if (StringUtils.isNotEmpty(id)) {
@@ -81,5 +84,37 @@ public class ActivitiServiceImpl implements ActivitiService {
         List<ProcessDefinition> list = query.listPage((pageNum - 1) * pageSize, pageSize);
 
         return new MyPageInfo(list, pageNum, pageSize, (int) query.count());
+    }
+
+    @Override
+    @Log
+    @Monitor(type = MonitorType.INSERT, description = "保存流程实例${processDefinitionId}")
+    public boolean saveProcessInstance(String processDefinitionId) {
+        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId);
+        log.info("保存流程实例成功, id={}", processInstance.getId());
+        return true;
+    }
+
+    @Override
+    public PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee) {
+        TaskQuery query = processEngine.getTaskService().createTaskQuery();
+
+        if (StringUtils.isNotEmpty(assignee)) {
+            query.taskAssignee(assignee);
+        }
+
+        query.orderByTaskId().desc();
+        List<Task> list = query.listPage((pageNum - 1) * pageSize, pageSize);
+
+        return new MyPageInfo(list, pageNum, pageSize, (int) query.count());
+    }
+
+    @Override
+    @Log
+    @Monitor(type = MonitorType.UPDATE, description = "办理任务${taskId}")
+    public boolean updateTask(String taskId) {
+        processEngine.getTaskService().complete(taskId);
+        log.info("办理任务成功,taskId={}", taskId);
+        return true;
     }
 }
