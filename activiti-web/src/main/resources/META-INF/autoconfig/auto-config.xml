@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <group>
+        <!--app-->
+        <property name="activiti.app.name" description="项目名字" defaultValue="工作流引擎"/>
+        <property name="activiti.app.name.en" description="项目名字（英文）" defaultValue="Activiti Engine"/>
+        <property name="activiti.app.author" description="项目构建者" defaultValue="康永敢"/>
+        <property name="activiti.app.author.en" description="项目构建者（英文）" defaultValue="Kang YongGan"/>
+        <property name="activiti.app.ba.no" description="备案号" defaultValue="皖ICP备16017743号-1"/>
+
+        <!-- log4j2 -->
+        <property name="activiti.log4j2.home" description="log4j2日志的文件主目录" defaultValue="/Users/kyg/logs/activiti"/>
+
+        <property name="activiti.file.root.path" description="文件根目录" defaultValue="/Users/kyg/code/kyg/activiti/activiti-web/src/main/webapp/WEB-INF/"/>
+    </group>
+
+    <script>
+        <generate template="messages_en_US.properties" charset="UTF-8"/>
+        <generate template="messages_zh_CN.properties" charset="UTF-8"/>
+        <generate template="log4j2.xml"/>
+    </script>
+</config>

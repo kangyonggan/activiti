@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <group>
+        <!-- redis -->
+        <property name="activiti.redis.maxTotal" description="redis最大连接数" defaultValue="1000"/>
+        <property name="activiti.redis.minIdle" description="redis最小等待数" defaultValue="50"/>
+        <property name="activiti.redis.maxIdle" description="redis最大等待数" defaultValue="100"/>
+        <property name="activiti.redis.testOnBorrow" description="redis测试支持" defaultValue="true"/>
+        <property name="activiti.redis.host" description="redis主机ip" defaultValue="127.0.0.1"/>
+        <property name="activiti.redis.port" description="redis主机端口" defaultValue="6379"/>
+        <property name="activiti.redis.password" description="redis密码" defaultValue="123456"/>
+        <property name="activiti.redis.prefix" description="redis的key的前缀" defaultValue="activiti"/>
+
+        <!--jdbc-->
+        <property name="activiti.jdbc.driver" description="jdbc驱动" defaultValue="com.mysql.jdbc.Driver"/>
+        <property name="activiti.jdbc.url" description="jdbc地址" defaultValue="jdbc:mysql://127.0.0.1:3306/activiti?useUnicode=true&amp;amp;characterEncoding=UTF-8"/>
+        <property name="activiti.jdbc.username" description="jdbc用户名" defaultValue="root"/>
+        <property name="activiti.jdbc.password" description="jdbc密码" defaultValue="123456"/>
+
+        <property name="activiti.slow.method.time" description="慢方法时间(秒)" defaultValue="2"/>
+        <property name="activiti.slow.interface.time" description="慢接口时间(秒)" defaultValue="2"/>
+        <property name="activiti.cache.open" description="是否开启缓存,Y:开启,N:不开启" defaultValue="Y"/>
+    </group>
+
+    <script>
+        <generate template="applicationContext-datasource.xml" charset="UTF-8"/>
+        <generate template="applicationContext-redis.xml" charset="UTF-8"/>
+    </script>
+</config>
