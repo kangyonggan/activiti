@@ -21,7 +21,7 @@ public class ShiroUtils {
             return (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         } catch (Exception e) {
             log.warn("无法获取当前登录的用户", e);
-            return null;
+            return new ShiroUser();
         }
     }
 

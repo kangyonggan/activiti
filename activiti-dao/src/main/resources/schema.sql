@@ -209,6 +209,8 @@ CREATE TABLE tb_definition_apply
   COMMENT '申请流水',
   remark       VARCHAR(128)                          NOT NULL
   COMMENT '备注',
+  zip_name     VARCHAR(64)                           NOT NULL
+  COMMENT 'ZIP文件名',
   zip_path     VARCHAR(256)                          NOT NULL
   COMMENT 'ZIP路径',
   status       VARCHAR(10)                           NOT NULL                    DEFAULT 'APPLY'

@@ -1,6 +1,5 @@
 package com.kangyonggan.activiti.mapper;
 
-import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.dto.TaskDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,5 +21,13 @@ public interface TaskMapper {
      * @return
      */
     List<TaskDto> selectTasks(@Param("definitionKey") String definitionKey, @Param("roles") List<String> roles);
+
+    /**
+     * 查找任务
+     *
+     * @param taskId
+     * @return
+     */
+    TaskDto selectTaskByTaskId(@Param("taskId") String taskId);
 
 }

@@ -76,7 +76,7 @@ public class BaseController {
     }
 
     protected Map<String, Object> getResultMap() {
-        Map<String, Object> resultMap = new HashedMap();
+        Map<String, Object> resultMap = new HashedMap(16);
         resultMap.put(AppConstants.RESP_CO, Resp.SUCCESS.getRespCo());
         resultMap.put(AppConstants.RESP_MSG, Resp.SUCCESS.getRespMsg());
 

@@ -32,6 +32,12 @@ public class DefinitionApply implements Serializable {
     private String remark;
 
     /**
+     * ZIP文件名
+     */
+    @Column(name = "zip_name")
+    private String zipName;
+
+    /**
      * ZIP路径
      */
     @Column(name = "zip_path")

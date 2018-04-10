@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.service.DefinitionApplyService;
+import com.kangyonggan.activiti.util.ShiroUtils;
 import com.kangyonggan.activiti.util.StringUtil;
 import com.kangyonggan.extra.core.annotation.Log;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -75,7 +76,25 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
 
         // 执行任务
         variables = new HashMap<>(1);
-        variables.put("definitionApply", definitionApply);
+        variables.put("definitionApply", myMapper.selectByPrimaryKey(definitionApply.getId()));
         activitiService.executeTask(task.getId(), variables);
+    }
+
+    @Override
+    @Log
+    public void updateDefinitionApply(Long id, String taskId, String status, String replyMsg) {
+        DefinitionApply definitionApply = new DefinitionApply();
+        definitionApply.setId(id);
+        definitionApply.setStatus(status);
+
+        myMapper.updateByPrimaryKeySelective(definitionApply);
+
+        // 执行任务
+        Map<String, Object> variables = new HashMap<>(3);
+        variables.put("status", status);
+        variables.put("replyUser", ShiroUtils.getShiroUser().getUsername());
+        variables.put("replyMsg", replyMsg);
+
+        activitiService.executeTask(taskId, variables);
     }
 }

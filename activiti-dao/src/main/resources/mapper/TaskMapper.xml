@@ -29,4 +29,24 @@
         </where>
         ORDER BY a.CREATE_TIME_ DESC
     </select>
+
+    <select id="selectTaskByTaskId" resultType="com.kangyonggan.activiti.dto.TaskDto">
+        SELECT
+            a.ID_ AS taskId,
+            a.NAME_ AS taskName,
+            a.PROC_INST_ID_ AS instanceId,
+            a.PROC_DEF_ID_ AS definitionId,
+            b.NAME_ AS definitionName,
+            b.KEY_ AS definitionKey,
+            b.VERSION_ AS definitionVersion,
+            a.ASSIGNEE_ AS assignee,
+            b.DEPLOYMENT_ID_ AS deploymentId,
+            a.CREATE_TIME_ AS createdTime
+        FROM ACT_RU_TASK a
+        LEFT JOIN ACT_RE_PROCDEF b
+        ON a.PROC_DEF_ID_ = b.ID_
+        <where>
+            a.ID_ = #{taskId}
+        </where>
+    </select>
 </mapper>

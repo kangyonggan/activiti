@@ -72,7 +72,7 @@
 
     <div class="clearfix form-actions">
         <div class="col-xs-offset-3">
-            <button id="submit" class="btn btn-success" data-loading-text="正在提交...">
+            <button id="submit" class="btn btn-success" data-loading-text="正在<@s.message "app.button.save"/>...">
                 <i class="ace-icon fa fa-check"></i>
             <@s.message "app.button.save"/>
             </button>

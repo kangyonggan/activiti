@@ -105,4 +105,13 @@ public class ActivitiServiceTest extends AbstractServiceTest {
         log.info(page);
     }
 
+    /**
+     * 获取流程变量
+     */
+    @Test
+    public void testFindTaskVariables() {
+        Map<String, Object> variables = activitiService.findTaskVariables("7525");
+        log.info(variables);
+    }
+
 }

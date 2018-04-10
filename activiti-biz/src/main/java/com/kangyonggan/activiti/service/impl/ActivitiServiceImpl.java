@@ -120,6 +120,11 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    public Map<String, Object> findTaskVariables(String taskId) {
+        return processEngine.getTaskService().getVariables(taskId);
+    }
+
+    @Override
     public PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee) {
         TaskQuery query = processEngine.getTaskService().createTaskQuery();
 
@@ -184,5 +189,10 @@ public class ActivitiServiceImpl implements ActivitiService {
     @Override
     public ProcessDefinition findProcessDefinition(String definitionKey) {
         return processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey(definitionKey).singleResult();
+    }
+
+    @Override
+    public TaskDto findTaskBytaskId(String taskId) {
+        return taskMapper.selectTaskByTaskId(taskId);
     }
 }

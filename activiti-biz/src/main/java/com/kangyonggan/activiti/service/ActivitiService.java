@@ -72,6 +72,14 @@ public interface ActivitiService {
     Task findTaskByInstanceId(String instanceId);
 
     /**
+     * 获取流程变量
+     *
+     * @param taskId
+     * @return
+     */
+    Map<String, Object> findTaskVariables(String taskId);
+
+    /**
      * 搜索任务
      *
      * @param pageNum
@@ -127,4 +135,12 @@ public interface ActivitiService {
      * @return
      */
     ProcessDefinition findProcessDefinition(String definitionKey);
+
+    /**
+     * 查找任务
+     *
+     * @param taskId
+     * @return
+     */
+    TaskDto findTaskBytaskId(String taskId);
 }

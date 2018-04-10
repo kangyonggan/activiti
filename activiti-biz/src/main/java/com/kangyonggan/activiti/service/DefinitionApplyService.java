@@ -30,4 +30,13 @@ public interface DefinitionApplyService {
      */
     void saveDefinitionApply(DefinitionApply definitionApply);
 
+    /**
+     * 更新流程定义申请
+     *
+     * @param id
+     * @param taskId
+     * @param status
+     * @param replyMsg
+     */
+    void updateDefinitionApply(Long id, String taskId, String status, String replyMsg);
 }

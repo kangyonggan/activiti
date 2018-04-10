@@ -89,6 +89,7 @@ public class DashboardUserActivitiController extends BaseController {
         if (!result.hasErrors()) {
             String zipPath = FileUpload.upload(zipFile, "DA");
             definitionApply.setZipPath(zipPath);
+            definitionApply.setZipName(zipFile.getOriginalFilename());
             definitionApply.setSerialNo(SerialNoUtil.getDefinitionApplySerialNo());
             definitionApply.setUsername(ShiroUtils.getShiroUser().getUsername());
             definitionApplyService.saveDefinitionApply(definitionApply);

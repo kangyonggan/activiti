@@ -8,6 +8,7 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="serial_no" property="serialNo" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="zip_pame" property="zipName" jdbcType="VARCHAR"/>
         <result column="zip_path" property="zipPath" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
