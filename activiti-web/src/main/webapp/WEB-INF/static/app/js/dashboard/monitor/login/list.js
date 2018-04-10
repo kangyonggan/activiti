@@ -1,5 +1,5 @@
 $(function () {
-    updateState("system/login");
+    updateState("monitor/login");
 
     $('.date-picker').datepicker({
         autoclose: true,

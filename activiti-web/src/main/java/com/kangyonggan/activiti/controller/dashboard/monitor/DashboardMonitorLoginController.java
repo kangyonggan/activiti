@@ -1,4 +1,4 @@
-package com.kangyonggan.activiti.controller.dashboard.system;
+package com.kangyonggan.activiti.controller.dashboard.monitor;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.controller.BaseController;
@@ -20,8 +20,8 @@ import java.util.List;
  * @date 2017/1/8
  */
 @Controller
-@RequestMapping("dashboard/system/login")
-public class DashboardSystemLoginController extends BaseController {
+@RequestMapping("dashboard/monitor/login")
+public class DashboardMonitorLoginController extends BaseController {
 
     @Autowired
     private LoginLogService loginLogService;
@@ -39,7 +39,7 @@ public class DashboardSystemLoginController extends BaseController {
      * @throws ParseException
      */
     @RequestMapping(method = RequestMethod.GET)
-    @RequiresPermissions("SYSTEM_LOGIN")
+    @RequiresPermissions("MONITOR_LOGIN")
     public String index(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNum,
                         @RequestParam(value = "username", required = false, defaultValue = "") String username,
                         @RequestParam(value = "ip", required = false, defaultValue = "") String ip,

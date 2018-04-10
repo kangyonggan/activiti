@@ -154,7 +154,6 @@ CREATE INDEX ix_username
 CREATE INDEX ix_created_time
   ON tb_login_log (created_time);
 
-
 -- ----------------------------
 --  Table structure for tb_monitor
 -- ----------------------------
@@ -206,6 +205,7 @@ INSERT INTO tb_user
 VALUES
   # 密码全是：111111
   ('admin', '超级管理员', '25500f5b85a66895e0b99117a12cd51b6d07eb13', '93fab0ba521763fc'),
+  ('auditor', '审核员', '25500f5b85a66895e0b99117a12cd51b6d07eb13', '93fab0ba521763fc'),
   ('guest', '普通用户', '25500f5b85a66895e0b99117a12cd51b6d07eb13', '93fab0ba521763fc');
 
 -- ----------------------------
@@ -215,6 +215,7 @@ INSERT INTO tb_role
 (code, name)
 VALUES
   ('ROLE_ADMIN', '超级管理员'),
+  ('ROLE_AUDITOR', '审核员'),
   ('ROLE_GUEST', '普通用户');
 
 -- ----------------------------
@@ -229,15 +230,20 @@ VALUES
   ('SYSTEM_USER', '用户管理', 'SYSTEM', 'system/user', 0, ''),
   ('SYSTEM_ROLE', '角色管理', 'SYSTEM', 'system/role', 1, ''),
   ('SYSTEM_MENU', '菜单管理', 'SYSTEM', 'system/menu', 2, ''),
-  ('SYSTEM_CACHE', '缓存管理', 'SYSTEM', 'system/cache', 5, ''),
-  ('SYSTEM_LOGIN', '登录日志', 'SYSTEM', 'system/login', 6, ''),
-  ('SYSTEM_SQL', '执行脚本', 'SYSTEM', 'system/sql', 7, ''),
+  ('SYSTEM_CACHE', '缓存管理', 'SYSTEM', 'system/cache', 3, ''),
+  ('SYSTEM_SQL', '执行脚本', 'SYSTEM', 'system/sql', 5, ''),
 
   ('MANAGE', '管理', 'DASHBOARD', 'manage', 2, 'menu-icon fa fa-desktop'),
+  ('MANAGE_AUDIT', '流程审核', 'MANAGE', 'manage/audit', 0, ''),
   ('MANAGE_ACTIVITI', '流程管理', 'MANAGE', 'manage/activiti', 1, ''),
 
-  ('USER', '我的', 'DASHBOARD', 'user', 3, 'menu-icon fa fa-user'),
-  ('USER_INFO', '基本信息', 'USER', 'user/info', 0, '');
+  ('MONITOR', '监控', 'DASHBOARD', 'monitor', 3, 'menu-icon fa fa-laptop'),
+  ('MONITOR_LOGIN', '登录日志', 'MONITOR', 'monitor/login', 0, ''),
+  ('MONITOR_OPERATE', '操作日志', 'MONITOR', 'monitor/operate', 1, ''),
+
+  ('USER', '我的', 'DASHBOARD', 'user', 4, 'menu-icon fa fa-user'),
+  ('USER_ACTIVITI', '流程中心', 'USER', 'user/activiti', 0, ''),
+  ('USER_INFO', '基本信息', 'USER', 'user/info', 1, '');
 
 -- ----------------------------
 --  data for tb_user_role
@@ -245,6 +251,7 @@ VALUES
 INSERT INTO tb_user_role
 VALUES
   ('admin', 'ROLE_ADMIN'),
+  ('auditor', 'ROLE_AUDITOR'),
   ('guest', 'ROLE_GUEST');
 
 -- ----------------------------
@@ -256,7 +263,13 @@ INSERT INTO tb_role_menu SELECT
                          FROM tb_menu;
 
 INSERT INTO tb_role_menu SELECT
+                           'ROLE_AUDITOR',
+                           code
+                         FROM tb_menu
+                         WHERE code LIKE 'USER%' OR code LIKE 'MANAGE%' OR code LIKE 'MONITOR%' OR code = 'DASHBOARD';
+
+INSERT INTO tb_role_menu SELECT
                            'ROLE_GUEST',
                            code
                          FROM tb_menu
-                         WHERE code LIKE 'USER%' OR code LIKE 'MANAGE%' OR code = 'DASHBOARD';
+                         WHERE code LIKE 'USER%' OR code = 'DASHBOARD';

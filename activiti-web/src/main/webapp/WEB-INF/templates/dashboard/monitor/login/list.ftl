@@ -56,7 +56,7 @@
     </#if>
     </tbody>
 </table>
-<@c.pagination url="${ctx}/dashboard#system/login" param="username=${username}&ip=${ip}&beginDate=${beginDate}&endDate=${endDate}"/>
+<@c.pagination url="${ctx}/dashboard#monitor/login" param="username=${username}&ip=${ip}&beginDate=${beginDate}&endDate=${endDate}"/>
 
 <script src="${ctx}/static/ace/dist/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="${ctx}/static/app/js/dashboard/system/login/list.js"></script>
+<script src="${ctx}/static/app/js/dashboard/monitor/login/list.js"></script>
