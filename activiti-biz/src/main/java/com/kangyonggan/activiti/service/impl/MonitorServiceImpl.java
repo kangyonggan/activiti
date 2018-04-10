@@ -1,18 +1,20 @@
 package com.kangyonggan.activiti.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.kangyonggan.activiti.constants.AppConstants;
 import com.kangyonggan.activiti.dto.ShiroUser;
 import com.kangyonggan.activiti.model.Monitor;
 import com.kangyonggan.activiti.service.MonitorService;
-import com.kangyonggan.activiti.service.UserService;
 import com.kangyonggan.activiti.util.ShiroUtils;
 import com.kangyonggan.extra.core.model.MonitorInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author kangyonggan
@@ -20,9 +22,6 @@ import java.util.Date;
  */
 @Service
 public class MonitorServiceImpl extends BaseService<Monitor> implements MonitorService {
-
-    @Autowired
-    private UserService userService;
 
     @Override
     public void saveMonitor(MonitorInfo monitorInfo) {
@@ -46,5 +45,27 @@ public class MonitorServiceImpl extends BaseService<Monitor> implements MonitorS
         }
 
         myMapper.insertSelective(monitor);
+    }
+
+    @Override
+    public List<Monitor> searchMonitors(int pageNum, String app, String type, String hasReturnValue) {
+        Example example = new Example(Monitor.class);
+
+        Example.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotEmpty(app)) {
+            criteria.andEqualTo("app", app);
+        }
+        if (StringUtils.isNotEmpty(type)) {
+            criteria.andEqualTo("type", type);
+        }
+        if (StringUtils.isNotEmpty(hasReturnValue)) {
+            criteria.andEqualTo("hasReturnValue", hasReturnValue);
+        }
+
+        example.selectProperties("id", "app", "type", "description", "beginTime", "endTime", "hasReturnValue", "username");
+        example.setOrderByClause("id desc");
+
+        PageHelper.startPage(pageNum, AppConstants.PAGE_SIZE);
+        return myMapper.selectByExample(example);
     }
 }

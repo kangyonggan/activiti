@@ -25,3 +25,7 @@ input[readonly].readonly {
     background: #fff !important;
     cursor: pointer !important;
 }
+
+select.form-control {
+    min-width: 158px;
+}
