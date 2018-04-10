@@ -127,44 +127,16 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public void executeTask(String taskId) {
-        executeTask(taskId, null);
+    public PageInfo<TaskDto> searchHisTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<TaskDto> taskDtos = taskMapper.selectHisTasks(definitionKey, serialNo, roles);
+        return new PageInfo<>(taskDtos);
     }
 
     @Override
     public void executeTask(String taskId, Map<String, Object> variables) {
         processEngine.getTaskService().complete(taskId, variables);
         log.info("执行任务成功,taskId={}", taskId);
-    }
-
-    @Override
-    public PageInfo<HistoricTaskInstance> searchHistoricTaskInstances(int pageNum, int pageSize, String assignee, Boolean isFinished, Date beginTime, Date endTime) {
-
-        HistoricTaskInstanceQuery query = processEngine.getHistoryService().createHistoricTaskInstanceQuery();
-
-        if (StringUtils.isNotEmpty(assignee)) {
-            query.taskAssignee(assignee);
-        }
-
-        if (beginTime != null) {
-            query.taskCreatedAfter(beginTime);
-        }
-        if (endTime != null) {
-            query.taskCreatedBefore(endTime);
-        }
-
-        if (isFinished != null) {
-            if (isFinished) {
-                query.finished();
-            } else {
-                query.unfinished();
-            }
-        }
-
-        query.orderByTaskCreateTime().desc();
-        List<HistoricTaskInstance> list = query.listPage((pageNum - 1) * pageSize, pageSize);
-
-        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
     }
 
     @Override

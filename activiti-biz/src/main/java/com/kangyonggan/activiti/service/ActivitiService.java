@@ -73,7 +73,7 @@ public interface ActivitiService {
     Map<String, Object> findTaskVariables(String taskId);
 
     /**
-     * 搜索任务
+     * 搜索待办任务
      *
      * @param pageNum
      * @param pageSize
@@ -85,11 +85,16 @@ public interface ActivitiService {
     PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles);
 
     /**
-     * 执行任务
+     * 搜索已办任务
      *
-     * @param taskId
+     * @param pageNum
+     * @param pageSize
+     * @param definitionKey
+     * @param serialNo
+     * @param roles
+     * @return
      */
-    void executeTask(String taskId);
+    PageInfo<TaskDto> searchHisTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles);
 
     /**
      * 执行任务
@@ -98,19 +103,6 @@ public interface ActivitiService {
      * @param variables
      */
     void executeTask(String taskId, Map<String, Object> variables);
-
-    /**
-     * 搜索历史任务
-     *
-     * @param pageNum
-     * @param pageSize
-     * @param assignee
-     * @param isFinished
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    PageInfo<HistoricTaskInstance> searchHistoricTaskInstances(int pageNum, int pageSize, String assignee, Boolean isFinished, Date beginTime, Date endTime);
 
     /**
      * 查找流程定义

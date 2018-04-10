@@ -92,15 +92,6 @@ public class ActivitiServiceTest extends AbstractServiceTest {
     }
 
     /**
-     * 搜索历史任务
-     */
-    @Test
-    public void testSearchHistoricTaskInstances() {
-        PageInfo<HistoricTaskInstance> page = activitiService.searchHistoricTaskInstances(1, AppConstants.PAGE_SIZE, null, true, null, null);
-        log.info(page);
-    }
-
-    /**
      * 获取流程变量
      */
     @Test

@@ -14,7 +14,7 @@ import java.util.List;
 public interface TaskMapper {
 
     /**
-     * 搜索任务
+     * 搜索待办任务
      *
      * @param definitionKey
      * @param serialNo
@@ -22,6 +22,16 @@ public interface TaskMapper {
      * @return
      */
     List<TaskDto> selectTasks(@Param("definitionKey") String definitionKey, @Param("serialNo") String serialNo, @Param("roles") List<String> roles);
+
+    /**
+     * 搜索已办任务
+     *
+     * @param definitionKey
+     * @param serialNo
+     * @param roles
+     * @return
+     */
+    List<TaskDto> selectHisTasks(@Param("definitionKey") String definitionKey, @Param("serialNo") String serialNo, @Param("roles") List<String> roles);
 
     /**
      * 查找任务

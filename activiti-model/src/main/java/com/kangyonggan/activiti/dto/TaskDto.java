@@ -68,4 +68,14 @@ public class TaskDto implements Serializable {
      * 创建时间
      */
     private Date createdTime;
+
+    /**
+     * 开始时间
+     */
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    private Date endTime;
 }
