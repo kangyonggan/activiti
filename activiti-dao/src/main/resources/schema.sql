@@ -1080,7 +1080,7 @@ INSERT INTO activiti.ACT_RE_DEPLOYMENT (ID_, NAME_, CATEGORY_, KEY_, TENANT_ID_,
 VALUES ('1', NULL, NULL, NULL, '', '2018-04-10 16:00:34.293', NULL);
 INSERT INTO activiti.ACT_RE_PROCDEF (ID_, REV_, CATEGORY_, NAME_, KEY_, VERSION_, DEPLOYMENT_ID_, RESOURCE_NAME_, DGRM_RESOURCE_NAME_, DESCRIPTION_, HAS_START_FORM_KEY_, HAS_GRAPHICAL_NOTATION_, SUSPENSION_STATE_, TENANT_ID_, ENGINE_VERSION_)
 VALUES
-  ('audit_process:1:4', 1, 'http://www.activiti.org/test', '审核流程', 'audit_process', 1, '1', 'audit.bpmn', 'audit.png',
+  ('audit_process:1:4', 1, 'http://www.activiti.org/test', '流程部署审批', 'audit_process', 1, '1', 'audit.bpmn', 'audit.png',
                         NULL, 0, 1, 1, '', NULL);
 
 INSERT INTO activiti.ACT_GE_BYTEARRAY (ID_, REV_, NAME_, DEPLOYMENT_ID_, BYTES_, GENERATED_) VALUES

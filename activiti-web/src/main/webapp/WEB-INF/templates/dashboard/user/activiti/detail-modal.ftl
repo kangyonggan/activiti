@@ -6,27 +6,24 @@
 <table id="his-table" class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>实例ID</th>
-        <th>流程名称</th>
-        <th>委托人</th>
+        <th>审批人</th>
+        <th>审批结果</th>
         <th>审批意见</th>
         <th>开始时间</th>
         <th>结束时间</th>
     </tr>
     </thead>
     <tbody>
-        <#if historicTaskInstances?size gt 0>
-            <#list historicTaskInstances as his>
+        <#if replyDtos?size gt 0>
+            <#list replyDtos as reply>
                 <tr>
-                    <td>${his.id}</td>
-                    <td>${his.processInstanceId}</td>
-                    <td>${his.name}</td>
-                    <td>${his.assignee}</td>
-                    <td>xxx</td>
-                    <td>${his.startTime?datetime}</td>
-                    <#if his.endTime??>
-                        <td>${his.endTime?datetime}</td>
+                    <td>${reply.replyUser}</td>
+                    <#assign definitionApply=reply/>
+                    <td>${reply.replyMsg}</td>
+                    <td><#include "status.ftl"></td>
+                    <td>${reply.startTime?datetime}</td>
+                    <#if reply.endTime??>
+                        <td>${reply.endTime?datetime}</td>
                     <#else>
                         <td></td>
                     </#if>
@@ -48,7 +45,6 @@
     <i class="ace-icon fa fa-times"></i>
     <@s.message "app.button.cancel"/>
 </button>
-<script src="${ctx}/static/app/js/dashboard/user/activiti/detail-modal.js"></script>
 </@override>
 
 <@extends name="../../modal-layout.ftl"/>

@@ -2,6 +2,8 @@ package com.kangyonggan.activiti.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.kangyonggan.activiti.constants.Status;
+import com.kangyonggan.activiti.dto.ReplyDto;
+import com.kangyonggan.activiti.mapper.DefinitionApplyMapper;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.service.DefinitionApplyService;
@@ -9,7 +11,6 @@ import com.kangyonggan.activiti.util.ShiroUtils;
 import com.kangyonggan.activiti.util.StringUtil;
 import com.kangyonggan.extra.core.annotation.Log;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
 
     @Autowired
     private ActivitiService activitiService;
+
+    @Autowired
+    private DefinitionApplyMapper definitionApplyMapper;
 
     @Override
     public List<DefinitionApply> searchDefinitionApplies(int pageNum, int pageSize, String username, String serialNo, String remark, String status) {
@@ -93,8 +97,9 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
         // 执行任务
         Map<String, Object> variables = new HashMap<>(3);
         variables.put("status", status);
-        variables.put("replyUser", ShiroUtils.getShiroUser().getUsername());
-        variables.put("replyMsg", replyMsg);
+        variables.put(taskId + ":status", status);
+        variables.put(taskId + ":replyUser", ShiroUtils.getShiroUser().getUsername());
+        variables.put(taskId + ":replyMsg", replyMsg);
 
         activitiService.executeTask(taskId, variables);
     }
@@ -119,5 +124,10 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
         variables = new HashMap<>(1);
         variables.put("definitionApply", definitionApply);
         activitiService.executeTask(task.getId(), variables);
+    }
+
+    @Override
+    public List<ReplyDto> findAllReply(String serialNo, String username) {
+        return definitionApplyMapper.selectAllReply(serialNo, username);
     }
 }

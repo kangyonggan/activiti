@@ -13,15 +13,16 @@ import com.kangyonggan.activiti.service.RoleService;
 import com.kangyonggan.activiti.service.UserService;
 import com.kangyonggan.activiti.util.Collections3;
 import com.kangyonggan.activiti.util.ShiroUtils;
-import org.activiti.engine.history.HistoricVariableInstance;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author kangyonggan
@@ -79,11 +80,13 @@ public class DashboardUserDoneController extends BaseController {
         User applyUser = userService.findUserByUsername(username);
         DefinitionApply definitionApply = (DefinitionApply) activitiService.findHisTaskVariable(taskId, "definitionApply").getValue();
         TaskDto task = activitiService.findHisTaskByTaskId(taskId);
-        String status = (String) activitiService.findHisTaskVariable(taskId, "status").getValue();
-        String replyMsg = (String) activitiService.findHisTaskVariable(taskId, "replyMsg").getValue();
+        String status = (String) activitiService.findHisTaskVariable(taskId, taskId + ":status").getValue();
+        String replyUser = (String) activitiService.findHisTaskVariable(taskId, taskId + ":replyUser").getValue();
+        String replyMsg = (String) activitiService.findHisTaskVariable(taskId, taskId + ":replyMsg").getValue();
 
         model.addAttribute("task", task);
         model.addAttribute("status", status);
+        model.addAttribute("replyUser", replyUser);
         model.addAttribute("replyMsg", replyMsg);
         model.addAttribute("applyUser", applyUser);
         model.addAttribute("definitionApply", definitionApply);

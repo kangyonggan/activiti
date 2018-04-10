@@ -16,4 +16,29 @@
         <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
         <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <select id="selectAllReply" resultType="com.kangyonggan.activiti.dto.ReplyDto">
+        SELECT
+          a.START_TIME_ AS startTime,
+          a.END_TIME_ AS endTime,
+          c.TEXT_ AS replyMsg,
+          d.TEXT_ AS replyUser,
+          e.TEXT_ AS status
+        FROM act_hi_taskinst a
+        LEFT JOIN act_hi_procinst b
+          ON a.PROC_INST_ID_ = b.PROC_INST_ID_
+        LEFT JOIN act_hi_varinst c
+          ON a.PROC_INST_ID_ = c.PROC_INST_ID_
+        LEFT JOIN act_hi_varinst d
+          ON a.PROC_INST_ID_ = d.PROC_INST_ID_
+        LEFT JOIN act_hi_varinst e
+          ON a.PROC_INST_ID_ = e.PROC_INST_ID_
+        <where>
+            b.BUSINESS_KEY_ = #{serialNo}
+            AND c.NAME_ = CONCAT(a.ID_, ':replyMsg')
+            AND d.NAME_ = CONCAT(a.ID_, ':replyUser')
+            AND e.NAME_ = CONCAT(a.ID_, ':status')
+            AND a.ASSIGNEE_ != #{username}
+        </where>
+    </select>
 </mapper>

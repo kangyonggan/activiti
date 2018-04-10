@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
 import com.kangyonggan.activiti.constants.Status;
 import com.kangyonggan.activiti.controller.BaseController;
+import com.kangyonggan.activiti.dto.ReplyDto;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.DefinitionApplyService;
 import com.kangyonggan.activiti.util.FileUpload;
@@ -141,5 +142,22 @@ public class DashboardUserActivitiController extends BaseController {
         }
 
         return resultMap;
+    }
+
+    /**
+     * 审批历史
+     *
+     * @param serialNo
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "{serialNo:[\\w]+}", method = RequestMethod.GET)
+    @RequiresPermissions("USER_ACTIVITI")
+    public String edit(@PathVariable("serialNo") String serialNo, Model model) {
+        List<ReplyDto> replyDtos = definitionApplyService.findAllReply(serialNo, ShiroUtils.getShiroUser().getUsername());
+
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("replyDtos", replyDtos);
+        return getPathDetailModal();
     }
 }

@@ -1,5 +1,6 @@
 package com.kangyonggan.activiti.service;
 
+import com.kangyonggan.activiti.dto.ReplyDto;
 import com.kangyonggan.activiti.model.DefinitionApply;
 
 import java.util.List;
@@ -55,4 +56,12 @@ public interface DefinitionApplyService {
      */
     void updateDefinitionApply(DefinitionApply definitionApply);
 
+    /**
+     * 查找审批历史
+     *
+     * @param serialNo
+     * @param username
+     * @return
+     */
+    List<ReplyDto> findAllReply(String serialNo, String username);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1523283628183" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="audit_process" isClosed="false" isExecutable="true" name="审核流程" processType="None">
+  <process id="audit_process" isClosed="false" isExecutable="true" name="流程部署审批" processType="None">
     <startEvent id="_2" name="开始"/>
     <userTask activiti:assignee="${username}" activiti:exclusive="true" id="_3" name="上传流程定义"/>
     <sequenceFlow id="_4" sourceRef="_2" targetRef="_3"/>
