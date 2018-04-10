@@ -30,7 +30,7 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testDeployProcessDefinition() {
-        activitiService.deployProcessDefinition("D:\\code\\activiti\\activiti-dao\\src\\main\\resources\\audit.zip");
+        activitiService.deployProcessDefinition("/Users/kyg/code/kyg/activiti/activiti-dao/src/main/resources/audit.zip");
     }
 
     /**

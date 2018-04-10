@@ -234,8 +234,9 @@ VALUES
   ('SYSTEM_SQL', '执行脚本', 'SYSTEM', 'system/sql', 5, ''),
 
   ('MANAGE', '管理', 'DASHBOARD', 'manage', 2, 'menu-icon fa fa-desktop'),
-  ('MANAGE_AUDIT', '流程审核', 'MANAGE', 'manage/audit', 0, ''),
-  ('MANAGE_ACTIVITI', '流程管理', 'MANAGE', 'manage/activiti', 1, ''),
+  ('MANAGE_AUDIT', '流程定义审核', 'MANAGE', 'manage/audit', 0, ''),
+  ('MANAGE_DEFINITION', '流程定义管理', 'MANAGE', 'manage/definition', 1, ''),
+  ('MANAGE_INSTANCE', '流程实例管理', 'MANAGE', 'manage/instance', 2, ''),
 
   ('MONITOR', '监控', 'DASHBOARD', 'monitor', 3, 'menu-icon fa fa-laptop'),
   ('MONITOR_LOGIN', '登录日志', 'MONITOR', 'monitor/login', 0, ''),

@@ -1,3 +1,0 @@
-$(function () {
-    updateState("manage/novel");
-});
