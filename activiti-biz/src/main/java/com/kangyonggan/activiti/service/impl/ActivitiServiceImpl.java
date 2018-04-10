@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricTaskInstanceQuery;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -120,6 +121,12 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    public HistoricVariableInstance findHisTaskVariable(String taskId, String variableName) {
+        HistoricTaskInstance hisTask = processEngine.getHistoryService().createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+        return processEngine.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(hisTask.getProcessInstanceId()).variableName(variableName).singleResult();
+    }
+
+    @Override
     public PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles) {
         PageHelper.startPage(pageNum, pageSize);
         List<TaskDto> taskDtos = taskMapper.selectTasks(definitionKey, serialNo, roles);
@@ -145,7 +152,12 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public TaskDto findTaskBytaskId(String taskId) {
+    public TaskDto findTaskByTaskId(String taskId) {
         return taskMapper.selectTaskByTaskId(taskId);
+    }
+
+    @Override
+    public TaskDto findHisTaskByTaskId(String taskId) {
+        return taskMapper.selectHisTaskByTaskId(taskId);
     }
 }

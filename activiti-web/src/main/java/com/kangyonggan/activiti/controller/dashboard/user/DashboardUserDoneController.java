@@ -13,6 +13,7 @@ import com.kangyonggan.activiti.service.RoleService;
 import com.kangyonggan.activiti.service.UserService;
 import com.kangyonggan.activiti.util.Collections3;
 import com.kangyonggan.activiti.util.ShiroUtils;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,12 +75,16 @@ public class DashboardUserDoneController extends BaseController {
     @RequestMapping(value = "{taskId:[\\d]+}", method = RequestMethod.GET)
     @RequiresPermissions("USER_DONE")
     public String detail(@PathVariable("taskId") String taskId, Model model) {
-        Map<String, Object> variables = activitiService.findTaskVariables(taskId);
-        User applyUser = userService.findUserByUsername((String) variables.get("username"));
-        DefinitionApply definitionApply = (DefinitionApply) variables.get("definitionApply");
-        TaskDto task = activitiService.findTaskBytaskId(taskId);
+        String username = (String) activitiService.findHisTaskVariable(taskId, "username").getValue();
+        User applyUser = userService.findUserByUsername(username);
+        DefinitionApply definitionApply = (DefinitionApply) activitiService.findHisTaskVariable(taskId, "definitionApply").getValue();
+        TaskDto task = activitiService.findHisTaskByTaskId(taskId);
+        String status = (String) activitiService.findHisTaskVariable(taskId, "status").getValue();
+        String replyMsg = (String) activitiService.findHisTaskVariable(taskId, "replyMsg").getValue();
 
         model.addAttribute("task", task);
+        model.addAttribute("status", status);
+        model.addAttribute("replyMsg", replyMsg);
         model.addAttribute("applyUser", applyUser);
         model.addAttribute("definitionApply", definitionApply);
         return getPathDetail();

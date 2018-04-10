@@ -34,11 +34,19 @@ public interface TaskMapper {
     List<TaskDto> selectHisTasks(@Param("definitionKey") String definitionKey, @Param("serialNo") String serialNo, @Param("roles") List<String> roles);
 
     /**
-     * 查找任务
+     * 查找待办任务
      *
      * @param taskId
      * @return
      */
     TaskDto selectTaskByTaskId(@Param("taskId") String taskId);
+
+    /**
+     * 查找已办任务
+     *
+     * @param taskId
+     * @return
+     */
+    TaskDto selectHisTaskByTaskId(@Param("taskId") String taskId);
 
 }

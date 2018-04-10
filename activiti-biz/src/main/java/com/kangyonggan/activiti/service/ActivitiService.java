@@ -3,6 +3,7 @@ package com.kangyonggan.activiti.service;
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.dto.TaskDto;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -73,6 +74,15 @@ public interface ActivitiService {
     Map<String, Object> findTaskVariables(String taskId);
 
     /**
+     * 获取历史流程变量
+     *
+     * @param taskId
+     * @param variableName
+     * @return
+     */
+    HistoricVariableInstance findHisTaskVariable(String taskId, String variableName);
+
+    /**
      * 搜索待办任务
      *
      * @param pageNum
@@ -118,5 +128,13 @@ public interface ActivitiService {
      * @param taskId
      * @return
      */
-    TaskDto findTaskBytaskId(String taskId);
+    TaskDto findTaskByTaskId(String taskId);
+
+    /**
+     * 查找任务
+     *
+     * @param taskId
+     * @return
+     */
+    TaskDto findHisTaskByTaskId(String taskId);
 }

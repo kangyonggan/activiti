@@ -77,7 +77,7 @@ public class DashboardUserTodoController extends BaseController {
         Map<String, Object> variables = activitiService.findTaskVariables(taskId);
         User applyUser = userService.findUserByUsername((String) variables.get("username"));
         DefinitionApply definitionApply = (DefinitionApply) variables.get("definitionApply");
-        TaskDto task = activitiService.findTaskBytaskId(taskId);
+        TaskDto task = activitiService.findTaskByTaskId(taskId);
 
         model.addAttribute("task", task);
         model.addAttribute("applyUser", applyUser);

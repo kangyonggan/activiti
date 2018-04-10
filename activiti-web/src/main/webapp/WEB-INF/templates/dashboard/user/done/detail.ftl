@@ -71,7 +71,8 @@
 
                         <div class="space-6"></div>
                         <li>
-                            <i class="ace-icon fa fa-caret-right green"></i>ZIP文件：<a target="_blank" href="${ctx}/${definitionApply.zipPath}">${definitionApply.zipName}</a>
+                            <i class="ace-icon fa fa-caret-right green"></i>ZIP文件：<a target="_blank"
+                                                                                     href="${ctx}/${definitionApply.zipPath}">${definitionApply.zipName}</a>
                         </li>
                     </ul>
                 </div>
@@ -81,20 +82,18 @@
         </div>
 
         <div id="reply-info" class="tab-pane">
-            <form id="form" method="post" action="${ctx}/dashboard/user/todo/${task.taskId}" class="form-horizontal">
+            <form class="form-horizontal">
                 <div class="space-10"></div>
-
-                <input type="hidden" name="applyId" value="${definitionApply.id}"/>
 
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right required">审批结果</label>
 
                     <div class="col-xs-12 col-sm-5">
-                        <select name="status" class="form-control">
-                            <option value="">-- 选择审批结果 --</option>
-                            <option value="COMPLETE">同意</option>
-                            <option value="REJECT">拒绝</option>
-                            <option value="BACK">退回</option>
+                        <select name="status" class="form-control readonly" disabled>
+                            <option value="">${status}</option>
+                            <option value="COMPLETE" <#if status=="COMPLETE">selected</#if>>同意</option>
+                            <option value="REJECT" <#if status=="REJECT">selected</#if>>拒绝</option>
+                            <option value="BACK" <#if status=="BACK">selected</#if>>退回</option>
                         </select>
                     </div>
                 </div>
@@ -102,16 +101,8 @@
                     <label class="col-sm-3 control-label no-padding-right required">审批意见</label>
 
                     <div class="col-xs-12 col-sm-5">
-                        <textarea class="form-control" name="replyMsg" rows="4" placeholder="请输入审批意见，不超过200字"></textarea>
-                    </div>
-                </div>
-
-                <div class="clearfix form-actions">
-                    <div class="col-xs-offset-3">
-                        <button id="submit" class="btn btn-success" data-loading-text="正在<@s.message "app.button.save"/>...">
-                            <i class="ace-icon fa fa-check"></i>
-                        <@s.message "app.button.save"/>
-                        </button>
+                        <textarea class="form-control readonly" name="replyMsg" rows="4" readonly
+                                  placeholder="请输入审批意见，不超过200字">${replyMsg}</textarea>
                     </div>
                 </div>
             </form>
@@ -119,4 +110,4 @@
     </div>
 </div>
 
-<script src="${ctx}/static/app/js/dashboard/user/todo/detail.js"></script>
+<script src="${ctx}/static/app/js/dashboard/user/done/detail.js"></script>

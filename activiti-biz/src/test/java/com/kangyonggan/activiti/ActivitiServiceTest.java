@@ -100,4 +100,12 @@ public class ActivitiServiceTest extends AbstractServiceTest {
         log.info(variables);
     }
 
+    /**
+     * 获取历史流程变量
+     */
+    @Test
+    public void testFindHisTaskVariable() {
+        log.info(activitiService.findHisTaskVariable("2525", "username"));
+    }
+
 }

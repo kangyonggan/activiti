@@ -26,6 +26,16 @@ input[readonly].readonly {
     cursor: pointer !important;
 }
 
+select[disabled].readonly {
+    background: #fff !important;
+    cursor: pointer !important;
+}
+
+textarea[readonly].readonly {
+    background: #fff !important;
+    cursor: pointer !important;
+}
+
 select.form-control {
     min-width: 158px;
 }
