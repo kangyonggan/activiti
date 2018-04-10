@@ -72,6 +72,15 @@ public interface ActivitiService {
     Task findTaskByInstanceId(String instanceId);
 
     /**
+     * 根据参数查找任务
+     *
+     * @param variableName
+     * @param variableValue
+     * @return
+     */
+    Task findTaskByVariable(String variableName, String variableValue);
+
+    /**
      * 获取流程变量
      *
      * @param taskId

@@ -99,4 +99,47 @@ public class DashboardUserActivitiController extends BaseController {
 
         return resultMap;
     }
+
+    /**
+     * 编辑
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "{id:[\\d]+}/edit", method = RequestMethod.GET)
+    @RequiresPermissions("USER_ACTIVITI")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("definitionApply", definitionApplyService.findDefinitionById(id));
+        return getPathFormModal();
+    }
+
+    /**
+     * 更新申请
+     *
+     * @param definitionApply
+     * @param result
+     * @param zipFile
+     * @return
+     * @throws FileUploadException
+     */
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresPermissions("USER_ACTIVITI")
+    public Map<String, Object> update(@ModelAttribute("definitionApply") @Valid DefinitionApply definitionApply, BindingResult result,
+                                    @RequestParam(value = "zipFile", required = false) MultipartFile zipFile) throws FileUploadException {
+        Map<String, Object> resultMap = getResultMap();
+        if (!result.hasErrors()) {
+            if (zipFile != null && !zipFile.isEmpty()) {
+                String zipPath = FileUpload.upload(zipFile, "DA");
+                definitionApply.setZipPath(zipPath);
+                definitionApply.setZipName(zipFile.getOriginalFilename());
+            }
+            definitionApplyService.updateDefinitionApply(definitionApply);
+        } else {
+            setResultMapFailure(resultMap);
+        }
+
+        return resultMap;
+    }
 }

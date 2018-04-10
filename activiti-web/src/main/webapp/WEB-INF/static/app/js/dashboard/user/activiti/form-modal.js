@@ -29,7 +29,7 @@ $(function () {
                 maxlength: 128
             },
             zipFile: {
-                required: true
+                required: requireZip == "1"
             }
         },
         submitHandler: function (form, event) {

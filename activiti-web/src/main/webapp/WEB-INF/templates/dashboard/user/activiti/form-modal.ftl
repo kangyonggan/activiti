@@ -2,12 +2,17 @@
 <#assign modal_title="${definitionApply.serialNo???string('编辑流程定义', '申请流程定义')}" />
 
 <@override name="modal-body">
-<form class="form-horizontal" role="form" id="modal-form" method="post"
+<form class="form-horizontal" role="form" id="modal-form" method="post" enctype="multipart/form-data"
       action="${ctx}/dashboard/user/activiti/${definitionApply.serialNo???string('update', 'save')}">
     <div class="row">
         <div class="row form-group">
             <div class="col-md-3 control-label">
-                <label class="required">ZIP文件</label>
+                <#if definitionApply.serialNo??>
+                    <label>重新上传ZIP文件</label>
+                    <input type="hidden" name="id" value="${definitionApply.id}"/>
+                <#else>
+                    <label class="required">上传ZIP文件</label>
+                </#if>
             </div>
             <div class="col-md-7 controls">
                 <input type="file" id="zipFile" name="zipFile"/>
@@ -29,6 +34,9 @@
 
     <@c.modal_form_tool/>
 
+<script>
+    var requireZip = "${definitionApply.serialNo???string('0', '1')}";
+</script>
 <script src="${ctx}/static/app/js/dashboard/user/activiti/form-modal.js"></script>
 </@override>
 

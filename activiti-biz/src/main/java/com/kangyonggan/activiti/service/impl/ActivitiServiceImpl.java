@@ -120,6 +120,14 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    public Task findTaskByVariable(String variableName, String variableValue) {
+        TaskQuery query = processEngine.getTaskService().createTaskQuery();
+        query.processVariableValueEquals(variableName, variableValue);
+
+        return query.singleResult();
+    }
+
+    @Override
     public Map<String, Object> findTaskVariables(String taskId) {
         return processEngine.getTaskService().getVariables(taskId);
     }

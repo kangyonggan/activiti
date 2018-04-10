@@ -39,4 +39,20 @@ public interface DefinitionApplyService {
      * @param replyMsg
      */
     void updateDefinitionApply(Long id, String taskId, String status, String replyMsg);
+
+    /**
+     * 查找流程定义申请
+     *
+     * @param id
+     * @return
+     */
+    DefinitionApply findDefinitionById(Long id);
+
+    /**
+     * 更新流程定义申请
+     *
+     * @param definitionApply
+     */
+    void updateDefinitionApply(DefinitionApply definitionApply);
+
 }

@@ -1,6 +1,7 @@
 package com.kangyonggan.activiti.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kangyonggan.activiti.constants.Status;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.service.DefinitionApplyService;
@@ -76,6 +77,7 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
 
         // 执行任务
         variables = new HashMap<>(1);
+        variables.put("serialNo", definitionApply.getSerialNo());
         variables.put("definitionApply", myMapper.selectByPrimaryKey(definitionApply.getId()));
         activitiService.executeTask(task.getId(), variables);
     }
@@ -96,5 +98,30 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
         variables.put("replyMsg", replyMsg);
 
         activitiService.executeTask(taskId, variables);
+    }
+
+    @Override
+    @Log
+    public DefinitionApply findDefinitionById(Long id) {
+        return myMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void updateDefinitionApply(DefinitionApply definitionApply) {
+        definitionApply.setStatus(Status.APPLY.getStatus());
+        myMapper.updateByPrimaryKeySelective(definitionApply);
+        definitionApply = myMapper.selectByPrimaryKey(definitionApply.getId());
+
+        Map<String, Object> variables = new HashMap<>(1);
+        variables.put("username", definitionApply.getUsername());
+
+        // 查找任务
+        Task task = activitiService.findTaskByVariable("serialNo", definitionApply.getSerialNo());
+
+        // 执行任务
+        variables = new HashMap<>(1);
+        variables.put("serialNo", definitionApply.getSerialNo());
+        variables.put("definitionApply", definitionApply);
+        activitiService.executeTask(task.getId(), variables);
     }
 }
