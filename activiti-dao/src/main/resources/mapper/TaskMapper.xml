@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kangyonggan.activiti.mapper.TaskMapper">
+    <select id="selectTasks" resultType="com.kangyonggan.activiti.dto.TaskDto">
+        SELECT
+            a.ID_ AS taskId,
+            a.NAME_ AS taskName,
+            a.PROC_INST_ID_ AS instanceId,
+            a.PROC_DEF_ID_ AS definitionId,
+            b.NAME_ AS definitionName,
+            b.KEY_ AS definitionKey,
+            b.VERSION_ AS definitionVersion,
+            a.ASSIGNEE_ AS assignee,
+            b.DEPLOYMENT_ID_ AS deploymentId,
+            a.CREATE_TIME_ AS createdTime
+        FROM ACT_RU_TASK a
+        LEFT JOIN ACT_RE_PROCDEF b
+        ON a.PROC_DEF_ID_ = b.ID_
+        <where>
+            <if test="definitionKey != null and definitionKey != ''">
+                b.KEY_ = #{definitionKey}
+            </if>
+            <if test="roles != null and roles.size > 0">
+                AND a.ASSIGNEE_ IN
+                <foreach collection="roles" item="role" open="(" separator="," close=")">
+                    #{role}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.CREATE_TIME_ DESC
+    </select>
+</mapper>

@@ -1,6 +1,7 @@
 package com.kangyonggan.activiti.service;
 
 import com.github.pagehelper.PageInfo;
+import com.kangyonggan.activiti.dto.TaskDto;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -85,10 +86,11 @@ public interface ActivitiService {
      *
      * @param pageNum
      * @param pageSize
+     * @param definitionKey
      * @param roles
      * @return
      */
-    PageInfo<Task> searchTasks(int pageNum, int pageSize, List<String> roles);
+    PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, List<String> roles);
 
     /**
      * 执行任务

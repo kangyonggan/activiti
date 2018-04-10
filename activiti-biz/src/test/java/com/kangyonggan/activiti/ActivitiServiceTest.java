@@ -3,6 +3,7 @@ package com.kangyonggan.activiti;
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
 import com.kangyonggan.activiti.constants.Status;
+import com.kangyonggan.activiti.dto.TaskDto;
 import com.kangyonggan.activiti.service.ActivitiService;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -80,7 +81,7 @@ public class ActivitiServiceTest extends AbstractServiceTest {
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_AUDITOR");
         roles.add("ROLE_XXX");
-        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, roles);
+        PageInfo<TaskDto> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, null, roles);
         log.info(page);
     }
 

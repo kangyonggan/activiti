@@ -1,6 +1,9 @@
 package com.kangyonggan.activiti.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kangyonggan.activiti.dto.TaskDto;
+import com.kangyonggan.activiti.mapper.TaskMapper;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.util.MyPageInfo;
 import com.kangyonggan.activiti.util.StringUtil;
@@ -37,6 +40,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 
     @Autowired
     private ProcessEngine processEngine;
+
+    @Autowired
+    private TaskMapper taskMapper;
 
     @Override
     public Deployment deployProcessDefinition(String zipPath) {
@@ -128,17 +134,10 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public PageInfo<Task> searchTasks(int pageNum, int pageSize, List<String> roles) {
-        TaskQuery query = processEngine.getTaskService().createTaskQuery();
-
-        if (!roles.isEmpty()) {
-            query.taskAssigneeIds(roles);
-        }
-
-        query.orderByTaskId().desc();
-        List<Task> list = query.listPage((pageNum - 1) * pageSize, pageSize);
-
-        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
+    public PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, List<String> roles) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<TaskDto> taskDtos = taskMapper.selectTasks(definitionKey, roles);
+        return new PageInfo<>(taskDtos);
     }
 
     @Override
