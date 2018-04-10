@@ -17,10 +17,11 @@ public interface TaskMapper {
      * 搜索任务
      *
      * @param definitionKey
+     * @param serialNo
      * @param roles
      * @return
      */
-    List<TaskDto> selectTasks(@Param("definitionKey") String definitionKey, @Param("roles") List<String> roles);
+    List<TaskDto> selectTasks(@Param("definitionKey") String definitionKey, @Param("serialNo") String serialNo, @Param("roles") List<String> roles);
 
     /**
      * 查找任务

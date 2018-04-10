@@ -151,4 +151,16 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         byte[] hashPassword = Digests.sha1(user.getPassword().getBytes(), salt, AppConstants.HASH_INTERATIONS);
         user.setPassword(Encodes.encodeHex(hashPassword));
     }
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setPassword("111111");
+        byte[] salt = Digests.generateSalt(AppConstants.SALT_SIZE);
+        user.setSalt(Encodes.encodeHex(salt));
+
+        byte[] hashPassword = Digests.sha1(user.getPassword().getBytes(), salt, AppConstants.HASH_INTERATIONS);
+        user.setPassword(Encodes.encodeHex(hashPassword));
+
+        System.out.println(user);
+    }
 }

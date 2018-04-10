@@ -14,7 +14,7 @@
         <li class="">
             <a data-toggle="tab" href="#reply-info" aria-expanded="false">
                 <i class="green ace-icon fa fa-check-square-o bigger-125"></i>
-                审核信息
+                审批信息
             </a>
         </li>
     </ul>
@@ -53,7 +53,7 @@
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
-                        <b>流程包信息</b>
+                        <b>部署信息</b>
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@
                     <ul class="list-unstyled spaced">
                         <div class="space-6"></div>
                         <li>
-                            <i class="ace-icon fa fa-caret-right green"></i>流水号：${definitionApply.serialNo}
+                            <i class="ace-icon fa fa-caret-right green"></i>业务流水号：${definitionApply.serialNo}
                         </li>
 
                         <div class="space-6"></div>
@@ -81,7 +81,7 @@
         </div>
 
         <div id="reply-info" class="tab-pane">
-            <form id="form" method="post" action="${ctx}/dashboard/manage/audit/${task.taskId}" class="form-horizontal">
+            <form id="form" method="post" action="${ctx}/dashboard/user/todo/${task.taskId}" class="form-horizontal">
                 <div class="space-10"></div>
 
                 <input type="hidden" name="applyId" value="${definitionApply.id}"/>
@@ -119,4 +119,4 @@
     </div>
 </div>
 
-<script src="${ctx}/static/app/js/dashboard/manage/audit/detail.js"></script>
+<script src="${ctx}/static/app/js/dashboard/user/todo/detail.js"></script>

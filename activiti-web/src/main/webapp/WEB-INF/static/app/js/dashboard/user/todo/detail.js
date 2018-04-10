@@ -1,5 +1,5 @@
 $(function () {
-    updateState("manage/audit");
+    updateState("user/todo");
 
     var $form = $('#form');
     var $btn = $("#submit");
@@ -22,7 +22,7 @@ $(function () {
                 success: function (response) {
                     if (response.respCo == '0000') {
                         Message.success(response.respMsg);
-                        window.location.hash = "manage/audit?r=" + Math.random();
+                        window.location.hash = "user/todo?r=" + Math.random();
                     } else {
                         Message.error(response.respMsg);
                     }

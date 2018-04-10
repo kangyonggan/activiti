@@ -50,35 +50,19 @@ public interface ActivitiService {
      * 启动流程实例
      *
      * @param processDefinitionId
-     * @return
-     */
-    ProcessInstance startProcessInstance(String processDefinitionId);
-
-    /**
-     * 启动流程实例, 带有参数
-     *
-     * @param processDefinitionId
+     * @param businessKey
      * @param variables
      * @return
      */
-    ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables);
+    ProcessInstance startProcessInstance(String processDefinitionId, String businessKey, Map<String, Object> variables);
 
     /**
-     * 根据实例ID查找任务
+     * 根据业务主键查找任务
      *
-     * @param instanceId
+     * @param businessKey
      * @return
      */
-    Task findTaskByInstanceId(String instanceId);
-
-    /**
-     * 根据参数查找任务
-     *
-     * @param variableName
-     * @param variableValue
-     * @return
-     */
-    Task findTaskByVariable(String variableName, String variableValue);
+    Task findTaskByBusinessKey(String businessKey);
 
     /**
      * 获取流程变量
@@ -93,21 +77,12 @@ public interface ActivitiService {
      *
      * @param pageNum
      * @param pageSize
-     * @param assignee
-     * @return
-     */
-    PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee);
-
-    /**
-     * 搜索任务
-     *
-     * @param pageNum
-     * @param pageSize
      * @param definitionKey
+     * @param serialNo
      * @param roles
      * @return
      */
-    PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, List<String> roles);
+    PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles);
 
     /**
      * 执行任务

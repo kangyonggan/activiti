@@ -34,7 +34,7 @@ public class DashboardUserActivitiController extends BaseController {
     private DefinitionApplyService definitionApplyService;
 
     /**
-     * 流程中心
+     * 我的待办
      *
      * @param pageNum
      * @param serialNo
@@ -59,7 +59,7 @@ public class DashboardUserActivitiController extends BaseController {
     }
 
     /**
-     * 申请
+     * 部署
      *
      * @param model
      * @return
@@ -72,7 +72,7 @@ public class DashboardUserActivitiController extends BaseController {
     }
 
     /**
-     * 保存申请
+     * 保存部署
      *
      * @param definitionApply
      * @param result
@@ -115,7 +115,7 @@ public class DashboardUserActivitiController extends BaseController {
     }
 
     /**
-     * 更新申请
+     * 更新部署
      *
      * @param definitionApply
      * @param result

@@ -1,4 +1,4 @@
-package com.kangyonggan.activiti.controller.dashboard.manage;
+package com.kangyonggan.activiti.controller.dashboard.user;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
@@ -27,8 +27,8 @@ import java.util.Map;
  * @date 4/10/18
  */
 @Controller
-@RequestMapping("dashboard/manage/audit")
-public class DashboardManageAuditController extends BaseController {
+@RequestMapping("dashboard/user/todo")
+public class DashboardUserTodoController extends BaseController {
 
     @Autowired
     private ActivitiService activitiService;
@@ -43,34 +43,36 @@ public class DashboardManageAuditController extends BaseController {
     private DefinitionApplyService definitionApplyService;
 
     /**
-     * 流程定义审核
+     * 我的待办
      *
      * @param pageNum
      * @param definitionKey
+     * @param serialNo
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    @RequiresPermissions("MANAGE_AUDIT")
+    @RequiresPermissions("USER_TODO")
     public String list(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNum,
                        @RequestParam(value = "definitionKey", required = false, defaultValue = "") String definitionKey,
+                       @RequestParam(value = "serialNo", required = false, defaultValue = "") String serialNo,
                        Model model) {
         List<Role> roles = roleService.findRolesByUsername(ShiroUtils.getShiroUser().getUsername());
-        PageInfo<TaskDto> page = activitiService.searchTasks(pageNum, AppConstants.PAGE_SIZE, definitionKey, Collections3.extractToList(roles, "code"));
+        PageInfo<TaskDto> page = activitiService.searchTasks(pageNum, AppConstants.PAGE_SIZE, definitionKey, serialNo, Collections3.extractToList(roles, "code"));
 
         model.addAttribute("page", page);
         return getPathList();
     }
 
     /**
-     * 详情
+     * 处理
      *
      * @param taskId
      * @param model
      * @return
      */
     @RequestMapping(value = "{taskId:[\\d]+}", method = RequestMethod.GET)
-    @RequiresPermissions("MANAGE_AUDIT")
+    @RequiresPermissions("USER_TODO")
     public String detail(@PathVariable("taskId") String taskId, Model model) {
         Map<String, Object> variables = activitiService.findTaskVariables(taskId);
         User applyUser = userService.findUserByUsername((String) variables.get("username"));
@@ -94,7 +96,7 @@ public class DashboardManageAuditController extends BaseController {
      */
     @RequestMapping(value = "{taskId:[\\d]+}", method = RequestMethod.POST)
     @ResponseBody
-    @RequiresPermissions("MANAGE_AUDIT")
+    @RequiresPermissions("USER_TODO")
     public Map<String, Object> submit(@PathVariable("taskId") String taskId, @RequestParam("status") String status,
                                       @RequestParam("replyMsg") String replyMsg, @RequestParam("applyId") Long applyId) {
         definitionApplyService.updateDefinitionApply(applyId, taskId, status, replyMsg);

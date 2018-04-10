@@ -1,4 +1,0 @@
-$(function () {
-    updateState("manage/audit");
-
-});

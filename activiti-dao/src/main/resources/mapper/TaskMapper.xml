@@ -12,13 +12,21 @@
             b.VERSION_ AS definitionVersion,
             a.ASSIGNEE_ AS assignee,
             b.DEPLOYMENT_ID_ AS deploymentId,
-            a.CREATE_TIME_ AS createdTime
+            a.CREATE_TIME_ AS createdTime,
+            d.BUSINESS_KEY_ AS serialNo
         FROM ACT_RU_TASK a
         LEFT JOIN ACT_RE_PROCDEF b
-        ON a.PROC_DEF_ID_ = b.ID_
+          ON a.PROC_DEF_ID_ = b.ID_
+        LEFT JOIN ACT_RU_EXECUTION c
+          ON a.EXECUTION_ID_ = c.ID_
+        LEFT JOIN ACT_RU_EXECUTION d
+          ON c.PARENT_ID_ = d.ID_
         <where>
+            <if test="serialNo != null and serialNo != ''">
+                d.BUSINESS_KEY_ = #{serialNo}
+            </if>
             <if test="definitionKey != null and definitionKey != ''">
-                b.KEY_ = #{definitionKey}
+                AND b.KEY_ = #{definitionKey}
             </if>
             <if test="roles != null and roles.size > 0">
                 AND a.ASSIGNEE_ IN
@@ -41,10 +49,15 @@
             b.VERSION_ AS definitionVersion,
             a.ASSIGNEE_ AS assignee,
             b.DEPLOYMENT_ID_ AS deploymentId,
-            a.CREATE_TIME_ AS createdTime
+            a.CREATE_TIME_ AS createdTime,
+            d.BUSINESS_KEY_ AS serialNo
         FROM ACT_RU_TASK a
         LEFT JOIN ACT_RE_PROCDEF b
-        ON a.PROC_DEF_ID_ = b.ID_
+          ON a.PROC_DEF_ID_ = b.ID_
+        LEFT JOIN ACT_RU_EXECUTION c
+          ON a.EXECUTION_ID_ = c.ID_
+        LEFT JOIN ACT_RU_EXECUTION d
+          ON c.PARENT_ID_ = d.ID_
         <where>
             a.ID_ = #{taskId}
         </where>

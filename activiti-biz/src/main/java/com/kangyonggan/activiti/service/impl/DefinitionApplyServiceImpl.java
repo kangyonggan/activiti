@@ -70,14 +70,13 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
         ProcessDefinition definition = activitiService.findProcessDefinition(DEFINITION_KEY);
 
         // 启动实例
-        ProcessInstance processInstance = activitiService.startProcessInstance(definition.getId(), variables);
+        activitiService.startProcessInstance(definition.getId(), definitionApply.getSerialNo(), variables);
 
         // 查找任务
-        Task task = activitiService.findTaskByInstanceId(processInstance.getProcessInstanceId());
+        Task task = activitiService.findTaskByBusinessKey(definitionApply.getSerialNo());
 
         // 执行任务
         variables = new HashMap<>(1);
-        variables.put("serialNo", definitionApply.getSerialNo());
         variables.put("definitionApply", myMapper.selectByPrimaryKey(definitionApply.getId()));
         activitiService.executeTask(task.getId(), variables);
     }
@@ -112,15 +111,12 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
         myMapper.updateByPrimaryKeySelective(definitionApply);
         definitionApply = myMapper.selectByPrimaryKey(definitionApply.getId());
 
-        Map<String, Object> variables = new HashMap<>(1);
-        variables.put("username", definitionApply.getUsername());
-
         // 查找任务
-        Task task = activitiService.findTaskByVariable("serialNo", definitionApply.getSerialNo());
+        Task task = activitiService.findTaskByBusinessKey(definitionApply.getSerialNo());
 
         // 执行任务
+        Map<String, Object> variables = new HashMap<>(1);
         variables = new HashMap<>(1);
-        variables.put("serialNo", definitionApply.getSerialNo());
         variables.put("definitionApply", definitionApply);
         activitiService.executeTask(task.getId(), variables);
     }

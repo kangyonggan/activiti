@@ -100,29 +100,16 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public ProcessInstance startProcessInstance(String processDefinitionId) {
-        return startProcessInstance(processDefinitionId, null);
-    }
-
-    @Override
-    public ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables) {
-        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId, variables);
+    public ProcessInstance startProcessInstance(String processDefinitionId, String businessKey, Map<String, Object> variables) {
+        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId, businessKey, variables);
         log.info("启动流程实例成功, id={}", processInstance.getId());
         return processInstance;
     }
 
     @Override
-    public Task findTaskByInstanceId(String instanceId) {
+    public Task findTaskByBusinessKey(String businessKey) {
         TaskQuery query = processEngine.getTaskService().createTaskQuery();
-        query.processInstanceId(instanceId);
-
-        return query.singleResult();
-    }
-
-    @Override
-    public Task findTaskByVariable(String variableName, String variableValue) {
-        TaskQuery query = processEngine.getTaskService().createTaskQuery();
-        query.processVariableValueEquals(variableName, variableValue);
+        query.processInstanceBusinessKey(businessKey);
 
         return query.singleResult();
     }
@@ -133,23 +120,9 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee) {
-        TaskQuery query = processEngine.getTaskService().createTaskQuery();
-
-        if (StringUtils.isNotEmpty(assignee)) {
-            query.taskAssignee(assignee);
-        }
-
-        query.orderByTaskId().desc();
-        List<Task> list = query.listPage((pageNum - 1) * pageSize, pageSize);
-
-        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
-    }
-
-    @Override
-    public PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, List<String> roles) {
+    public PageInfo<TaskDto> searchTasks(int pageNum, int pageSize, String definitionKey, String serialNo, List<String> roles) {
         PageHelper.startPage(pageNum, pageSize);
-        List<TaskDto> taskDtos = taskMapper.selectTasks(definitionKey, roles);
+        List<TaskDto> taskDtos = taskMapper.selectTasks(definitionKey, serialNo, roles);
         return new PageInfo<>(taskDtos);
     }
 

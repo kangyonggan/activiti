@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
 import com.kangyonggan.activiti.constants.Status;
 import com.kangyonggan.activiti.dto.TaskDto;
+import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.ActivitiService;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -50,27 +51,21 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testStartProcessInstance() {
-        Map<String, Object> variables = new HashMap<>();
+        Map<String, Object> variables = new HashMap<>(1);
         variables.put("username", "guest");
         // 启动实例
-        ProcessInstance processInstance = activitiService.startProcessInstance("audit_process:1:4", variables);
+        activitiService.startProcessInstance("audit_process:1:4", "DA123456", variables);
 
         // 查找任务
-        Task task = activitiService.findTaskByInstanceId(processInstance.getProcessInstanceId());
+        Task task = activitiService.findTaskByBusinessKey("DA123456");
 
         // 执行任务
-        variables = new HashMap<>();
-        variables.put("zipFilePath", "D:\\code\\activiti\\activiti-dao\\src\\main\\resources\\audit.zip");
+        DefinitionApply apply = new DefinitionApply();
+        apply.setSerialNo("DA123456");
+        apply.setRemark("测试");
+        variables = new HashMap<>(1);
+        variables.put("definitionApply", apply);
         activitiService.executeTask(task.getId(), variables);
-    }
-
-    /**
-     * 搜索任务
-     */
-    @Test
-    public void testSearchTasks() {
-        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, "ROLE_AUDITOR");
-        log.info(page);
     }
 
     /**
@@ -81,7 +76,7 @@ public class ActivitiServiceTest extends AbstractServiceTest {
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_AUDITOR");
         roles.add("ROLE_XXX");
-        PageInfo<TaskDto> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, null, roles);
+        PageInfo<TaskDto> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, null, null, roles);
         log.info(page);
     }
 

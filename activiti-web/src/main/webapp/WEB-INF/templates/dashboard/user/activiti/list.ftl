@@ -5,11 +5,11 @@
 
 <div class="page-header">
     <h1>
-        流程定义申请列表
+        部署列表
         <small class="pull-right">
             <a href="${ctx}/dashboard/user/activiti/create" class="btn btn-sm btn-pink" data-toggle="modal"
                data-target="#myModal"
-               data-backdrop="static">申请</a>
+               data-backdrop="static">部署</a>
         </small>
     </h1>
 </div>
@@ -18,7 +18,7 @@
 
 <form class="form-inline" method="get">
     <div class="form-group">
-        <input type="text" class="form-control" name="serialNo" value="${serialNo}" placeholder="申请流水号"
+        <input type="text" class="form-control" name="serialNo" value="${serialNo}" placeholder="部署流水号"
                autocomplete="off"/>
     </div>
     <div class="form-group">
@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
         <select name="status" class="form-control">
-            <option value="">-- 申请状态 --</option>
+            <option value="">-- 状态 --</option>
         <#list statuses as s>
             <option value="${s.getStatus()}" <#if status=='${s.getStatus()}'>selected</#if>>${s.getName()}</option>
         </#list>
@@ -41,7 +41,7 @@
 <table id="activiti-table" class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>申请流水号</th>
+        <th>部署流水号</th>
         <th>备注</th>
         <th>状态</th>
         <th>创建时间</th>

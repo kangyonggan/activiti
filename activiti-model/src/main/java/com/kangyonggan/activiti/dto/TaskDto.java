@@ -15,6 +15,11 @@ import java.util.Date;
 public class TaskDto implements Serializable {
 
     /**
+     * 业务流水
+     */
+    private String serialNo;
+
+    /**
      * 任务ID
      */
     private String taskId;

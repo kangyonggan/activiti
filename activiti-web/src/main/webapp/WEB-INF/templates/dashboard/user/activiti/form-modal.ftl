@@ -1,5 +1,5 @@
 <#assign ctx="${(rca.contextPath)!''}">
-<#assign modal_title="${definitionApply.serialNo???string('编辑流程定义', '申请流程定义')}" />
+<#assign modal_title="${definitionApply.serialNo???string('重新部署工作流', '部署工作流')}" />
 
 <@override name="modal-body">
 <form class="form-horizontal" role="form" id="modal-form" method="post" enctype="multipart/form-data"
