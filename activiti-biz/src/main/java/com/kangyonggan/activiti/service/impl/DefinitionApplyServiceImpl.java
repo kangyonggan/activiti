@@ -1,0 +1,81 @@
+package com.kangyonggan.activiti.service.impl;
+
+import com.github.pagehelper.PageHelper;
+import com.kangyonggan.activiti.model.DefinitionApply;
+import com.kangyonggan.activiti.service.ActivitiService;
+import com.kangyonggan.activiti.service.DefinitionApplyService;
+import com.kangyonggan.activiti.util.StringUtil;
+import com.kangyonggan.extra.core.annotation.Log;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author kangyonggan
+ * @date 4/10/18
+ */
+@Service
+public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> implements DefinitionApplyService {
+
+    /**
+     * 流程定义申请流程的KEY
+     */
+    private static final String DEFINITION_KEY = "audit_process";
+
+    @Autowired
+    private ActivitiService activitiService;
+
+    @Override
+    public List<DefinitionApply> searchDefinitionApplies(int pageNum, int pageSize, String username, String serialNo, String remark, String status) {
+        Example example = new Example(DefinitionApply.class);
+
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", username);
+
+        if (StringUtils.isNotEmpty(serialNo)) {
+            criteria.andEqualTo("serialNo", serialNo);
+        }
+        if (StringUtils.isNotEmpty(status)) {
+            criteria.andEqualTo("status", status);
+        }
+        if (StringUtils.isNotEmpty(remark)) {
+            criteria.andLike("remark", StringUtil.toLikeString(remark));
+        }
+
+        example.setOrderByClause("id desc");
+
+        PageHelper.startPage(pageNum, pageSize);
+        return myMapper.selectByExample(example);
+    }
+
+    @Override
+    @Log
+    public void saveDefinitionApply(DefinitionApply definitionApply, String dirPath) {
+        myMapper.insertSelective(definitionApply);
+
+        Map<String, Object> variables = new HashMap<>(1);
+        variables.put("username", definitionApply.getUsername());
+
+        // 查找流程定义
+        ProcessDefinition definition = activitiService.findProcessDefinition(DEFINITION_KEY);
+
+        // 启动实例
+        ProcessInstance processInstance = activitiService.startProcessInstance(definition.getId(), variables);
+
+        // 查找任务
+        Task task = activitiService.findTaskByInstanceId(processInstance.getProcessInstanceId());
+
+        // 执行任务
+        variables = new HashMap<>(1);
+        variables.put("zipFilePath", dirPath + definitionApply.getZipPath());
+        activitiService.executeTask(task.getId(), variables);
+    }
+}

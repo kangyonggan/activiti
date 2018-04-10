@@ -10,22 +10,22 @@
 
         <!--base mapper-->
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="com.kangyonggan.blog.mapper.MyMapper"/>
+            <property name="mappers" value="com.kangyonggan.activiti.mapper.MyMapper"/>
         </plugin>
 
         <!--serialize plugin-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 
         <!--lombok plugin-->
-        <plugin type="com.kangyonggan.blog.mapper.LombokPlugin"/>
+        <plugin type="com.kangyonggan.activiti.mapper.LombokPlugin"/>
 
         <!--jdbc driver-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/blog"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/activiti"
                         userId="root" password="123456"/>
 
         <!--TableName.java-->
-        <javaModelGenerator targetPackage="com.kangyonggan.blog.vo"
-                            targetProject="../blog-model/src/main/java">
+        <javaModelGenerator targetPackage="com.kangyonggan.activiti.model"
+                            targetProject="../activiti-model/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -36,7 +36,7 @@
         </sqlMapGenerator>
 
         <!--TableNameMapper.java-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.kangyonggan.blog.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.kangyonggan.activiti.mapper"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

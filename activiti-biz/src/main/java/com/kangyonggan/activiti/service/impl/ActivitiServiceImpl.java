@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.util.MyPageInfo;
 import com.kangyonggan.activiti.util.StringUtil;
-import com.kangyonggan.extra.core.annotation.Log;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -40,7 +39,6 @@ public class ActivitiServiceImpl implements ActivitiService {
     private ProcessEngine processEngine;
 
     @Override
-    @Log
     public Deployment deployProcessDefinition(String zipPath) {
         DeploymentBuilder deploymentBuilder = processEngine.getRepositoryService().createDeployment();
         ZipInputStream zipInputStream = null;
@@ -68,7 +66,6 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    @Log
     public void deleteProcessDefinition(String deploymentId) {
         processEngine.getRepositoryService().deleteDeployment(deploymentId);
     }
@@ -97,13 +94,11 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    @Log
     public ProcessInstance startProcessInstance(String processDefinitionId) {
         return startProcessInstance(processDefinitionId, null);
     }
 
     @Override
-    @Log
     public ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables) {
         ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId, variables);
         log.info("启动流程实例成功, id={}", processInstance.getId());
@@ -111,7 +106,6 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    @Log
     public Task findTaskByInstanceId(String instanceId) {
         TaskQuery query = processEngine.getTaskService().createTaskQuery();
         query.processInstanceId(instanceId);
@@ -134,13 +128,11 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    @Log
     public void executeTask(String taskId) {
         executeTask(taskId, null);
     }
 
     @Override
-    @Log
     public void executeTask(String taskId, Map<String, Object> variables) {
         processEngine.getTaskService().complete(taskId, variables);
         log.info("执行任务成功,taskId={}", taskId);
@@ -174,5 +166,10 @@ public class ActivitiServiceImpl implements ActivitiService {
         List<HistoricTaskInstance> list = query.listPage((pageNum - 1) * pageSize, pageSize);
 
         return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
+    }
+
+    @Override
+    public ProcessDefinition findProcessDefinition(String definitionKey) {
+        return processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey(definitionKey).singleResult();
     }
 }

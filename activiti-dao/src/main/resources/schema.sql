@@ -195,6 +195,37 @@ CREATE INDEX ix_app
 CREATE INDEX ix_type
   ON tb_monitor (type);
 
+-- ----------------------------
+--  Table structure for tb_definition_apply
+-- ----------------------------
+DROP TABLE
+IF EXISTS tb_definition_apply;
+
+CREATE TABLE tb_definition_apply
+(
+  id           BIGINT(20) PRIMARY KEY AUTO_INCREMENT NOT NULL
+  COMMENT '主键, 自增',
+  serial_no    VARCHAR(32)                           NOT NULL
+  COMMENT '申请流水',
+  remark       VARCHAR(128)                          NOT NULL
+  COMMENT '备注',
+  zip_path     VARCHAR(256)                          NOT NULL
+  COMMENT 'ZIP路径',
+  status       VARCHAR(10)                           NOT NULL                    DEFAULT 'APPLY'
+  COMMENT '状态:{APPLY:申请中, BACK:已退回, REJECT:已拒绝, COMPLETE:已完成}',
+  username     VARCHAR(32)                           NOT NULL
+  COMMENT '申请人',
+  is_deleted   TINYINT                               NOT NULL                    DEFAULT 0
+  COMMENT '逻辑删除:{0:未删除, 1:已删除}',
+  created_time TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP
+  COMMENT '创建时间',
+  updated_time TIMESTAMP                             NOT NULL                    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '更新时间'
+)
+  COMMENT '流程定义申请表';
+CREATE UNIQUE INDEX serial_no_UNIQUE
+  ON tb_definition_apply (serial_no);
+
 #====================初始数据====================#
 
 -- ----------------------------

@@ -107,4 +107,12 @@ public interface ActivitiService {
      */
     PageInfo<HistoricTaskInstance> searchHistoricTaskInstances(int pageNum, int pageSize, String assignee, Boolean isFinished, Date beginTime, Date endTime);
 
+    /**
+     * 查找流程定义
+     *
+     * @param definitionKey
+     * @return
+     */
+    ProcessDefinition findProcessDefinition(String definitionKey);
+
 }
