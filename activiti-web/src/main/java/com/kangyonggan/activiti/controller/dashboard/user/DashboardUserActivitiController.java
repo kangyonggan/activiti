@@ -7,7 +7,6 @@ import com.kangyonggan.activiti.controller.BaseController;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.service.DefinitionApplyService;
 import com.kangyonggan.activiti.util.FileUpload;
-import com.kangyonggan.activiti.util.PropertiesUtil;
 import com.kangyonggan.activiti.util.SerialNoUtil;
 import com.kangyonggan.activiti.util.ShiroUtils;
 import org.apache.commons.fileupload.FileUploadException;
@@ -92,7 +91,7 @@ public class DashboardUserActivitiController extends BaseController {
             definitionApply.setZipPath(zipPath);
             definitionApply.setSerialNo(SerialNoUtil.getDefinitionApplySerialNo());
             definitionApply.setUsername(ShiroUtils.getShiroUser().getUsername());
-            definitionApplyService.saveDefinitionApply(definitionApply, PropertiesUtil.getProperties(AppConstants.FILE_PATH_ROOT));
+            definitionApplyService.saveDefinitionApply(definitionApply);
         } else {
             setResultMapFailure(resultMap);
         }

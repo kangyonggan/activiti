@@ -27,8 +27,7 @@ public interface DefinitionApplyService {
      * 保存流程定义申请
      *
      * @param definitionApply
-     * @param dirPath
      */
-    void saveDefinitionApply(DefinitionApply definitionApply, String dirPath);
+    void saveDefinitionApply(DefinitionApply definitionApply);
 
 }

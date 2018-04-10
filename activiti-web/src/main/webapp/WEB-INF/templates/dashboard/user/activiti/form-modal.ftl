@@ -18,7 +18,7 @@
                 <label class="required">备注</label>
             </div>
             <div class="col-md-7 controls">
-                <textarea class="form-control" name="remark" rows="8" placeholder="备注：最多128个字符">${definitionApply.remark!''}</textarea>
+                <textarea class="form-control" name="remark" rows="4" placeholder="备注：最多128个字符">${definitionApply.remark!''}</textarea>
             </div>
         </div>
     </div>

@@ -8,6 +8,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,6 +81,16 @@ public interface ActivitiService {
     PageInfo<Task> searchTasks(int pageNum, int pageSize, String assignee);
 
     /**
+     * 搜索任务
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param roles
+     * @return
+     */
+    PageInfo<Task> searchTasks(int pageNum, int pageSize, List<String> roles);
+
+    /**
      * 执行任务
      *
      * @param taskId
@@ -114,5 +125,4 @@ public interface ActivitiService {
      * @return
      */
     ProcessDefinition findProcessDefinition(String definitionKey);
-
 }

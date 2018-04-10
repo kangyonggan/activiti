@@ -128,6 +128,20 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    public PageInfo<Task> searchTasks(int pageNum, int pageSize, List<String> roles) {
+        TaskQuery query = processEngine.getTaskService().createTaskQuery();
+
+        if (!roles.isEmpty()) {
+            query.taskAssigneeIds(roles);
+        }
+
+        query.orderByTaskId().desc();
+        List<Task> list = query.listPage((pageNum - 1) * pageSize, pageSize);
+
+        return new MyPageInfo<>(list, pageNum, pageSize, (int) query.count());
+    }
+
+    @Override
     public void executeTask(String taskId) {
         executeTask(taskId, null);
     }

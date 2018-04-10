@@ -12,7 +12,9 @@ import org.activiti.engine.task.Task;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,6 +69,18 @@ public class ActivitiServiceTest extends AbstractServiceTest {
     @Test
     public void testSearchTasks() {
         PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, "ROLE_AUDITOR");
+        log.info(page);
+    }
+
+    /**
+     * 搜索任务
+     */
+    @Test
+    public void testSearchTasks2() {
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_AUDITOR");
+        roles.add("ROLE_XXX");
+        PageInfo<Task> page = activitiService.searchTasks(1, AppConstants.PAGE_SIZE, roles);
         log.info(page);
     }
 

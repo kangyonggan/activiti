@@ -58,7 +58,7 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
 
     @Override
     @Log
-    public void saveDefinitionApply(DefinitionApply definitionApply, String dirPath) {
+    public void saveDefinitionApply(DefinitionApply definitionApply) {
         myMapper.insertSelective(definitionApply);
 
         Map<String, Object> variables = new HashMap<>(1);
@@ -75,7 +75,7 @@ public class DefinitionApplyServiceImpl extends BaseService<DefinitionApply> imp
 
         // 执行任务
         variables = new HashMap<>(1);
-        variables.put("zipFilePath", dirPath + definitionApply.getZipPath());
+        variables.put("definitionApply", definitionApply);
         activitiService.executeTask(task.getId(), variables);
     }
 }
