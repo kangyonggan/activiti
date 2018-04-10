@@ -38,7 +38,7 @@ public class ActivitiServiceTest extends AbstractServiceTest {
      */
     @Test
     public void testSearchProcessDefinition() {
-        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(1, AppConstants.PAGE_SIZE, null, null, null);
+        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(1, AppConstants.PAGE_SIZE, null, null, null, null);
         log.info(page);
     }
 

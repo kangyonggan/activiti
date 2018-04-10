@@ -10,10 +10,14 @@ $(function () {
         var title = $trigger.attr("title");
 
         $.messager.confirm("提示", "确定" + title + "吗?", function () {
-            $.get(url).success(function (html) {
-                var $tr = $(html);
-                $('#' + $tr.attr('id')).replaceWith($tr);
-                Message.success("操作成功");
+            $.get(url).success(function (response) {
+                response = eval('(' + response + ')');
+                if (response.respCo == '0000') {
+                    window.location.hash = "manage/definition?r=" + Math.random();
+                    Message.success(response.respMsg);
+                } else {
+                    Message.error(response.respMsg);
+                }
             }).error(function () {
                 Message.error("网络错误，请稍后重试");
             })

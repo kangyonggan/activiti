@@ -1,11 +1,10 @@
 package com.kangyonggan.activiti.service.impl;
 
 import com.github.pagehelper.PageInfo;
-import com.kangyonggan.activiti.constants.MonitorType;
 import com.kangyonggan.activiti.service.ActivitiService;
 import com.kangyonggan.activiti.util.MyPageInfo;
 import com.kangyonggan.activiti.util.StringUtil;
-import com.kangyonggan.extra.core.annotation.Monitor;
+import com.kangyonggan.extra.core.annotation.Log;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -41,7 +40,7 @@ public class ActivitiServiceImpl implements ActivitiService {
     private ProcessEngine processEngine;
 
     @Override
-    @Monitor(type = MonitorType.INSERT, description = "部署流程定义${zipPath}")
+    @Log
     public Deployment deployProcessDefinition(String zipPath) {
         DeploymentBuilder deploymentBuilder = processEngine.getRepositoryService().createDeployment();
         ZipInputStream zipInputStream = null;
@@ -69,11 +68,20 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
-    public PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String id, String name, String key) {
+    @Log
+    public void deleteProcessDefinition(String deploymentId) {
+        processEngine.getRepositoryService().deleteDeployment(deploymentId);
+    }
+
+    @Override
+    public PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String deploymentId, String definitionId, String name, String key) {
         ProcessDefinitionQuery query = processEngine.getRepositoryService().createProcessDefinitionQuery();
 
-        if (StringUtils.isNotEmpty(id)) {
-            query.processDefinitionId(id);
+        if (StringUtils.isNotEmpty(deploymentId)) {
+            query.deploymentId(deploymentId);
+        }
+        if (StringUtils.isNotEmpty(definitionId)) {
+            query.processDefinitionId(definitionId);
         }
         if (StringUtils.isNotEmpty(name)) {
             query.processDefinitionNameLike(StringUtil.toLikeString(name));
@@ -89,12 +97,13 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    @Log
     public ProcessInstance startProcessInstance(String processDefinitionId) {
         return startProcessInstance(processDefinitionId, null);
     }
 
     @Override
-    @Monitor(type = MonitorType.INSERT, description = "启动流程实例${processDefinitionId}")
+    @Log
     public ProcessInstance startProcessInstance(String processDefinitionId, Map<String, Object> variables) {
         ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId, variables);
         log.info("启动流程实例成功, id={}", processInstance.getId());
@@ -102,6 +111,7 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    @Log
     public Task findTaskByInstanceId(String instanceId) {
         TaskQuery query = processEngine.getTaskService().createTaskQuery();
         query.processInstanceId(instanceId);
@@ -124,12 +134,13 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     @Override
+    @Log
     public void executeTask(String taskId) {
         executeTask(taskId, null);
     }
 
     @Override
-    @Monitor(type = MonitorType.UPDATE, description = "执行任务${taskId}")
+    @Log
     public void executeTask(String taskId, Map<String, Object> variables) {
         processEngine.getTaskService().complete(taskId, variables);
         log.info("执行任务成功,taskId={}", taskId);

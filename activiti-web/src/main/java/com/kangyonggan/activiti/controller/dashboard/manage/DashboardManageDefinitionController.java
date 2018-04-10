@@ -9,9 +9,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author kangyonggan
@@ -28,7 +28,8 @@ public class DashboardManageDefinitionController extends BaseController {
      * 流程定义
      *
      * @param pageNum
-     * @param id
+     * @param deploymentId
+     * @param definitionId
      * @param name
      * @param key
      * @param model
@@ -37,13 +38,27 @@ public class DashboardManageDefinitionController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     @RequiresPermissions("MANAGE_DEFINITION")
     public String list(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNum,
-                       @RequestParam(value = "id", required = false, defaultValue = "") String id,
+                       @RequestParam(value = "deploymentId", required = false, defaultValue = "") String deploymentId,
+                       @RequestParam(value = "definitionId", required = false, defaultValue = "") String definitionId,
                        @RequestParam(value = "name", required = false, defaultValue = "") String name,
                        @RequestParam(value = "key", required = false, defaultValue = "") String key,
                        Model model) {
-        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(pageNum, AppConstants.PAGE_SIZE, id, name, key);
+        PageInfo<ProcessDefinition> page = activitiService.searchProcessDefinitions(pageNum, AppConstants.PAGE_SIZE, deploymentId, definitionId, name, key);
         model.addAttribute("page", page);
         return getPathList();
     }
 
+    /**
+     * 删除流程定义
+     *
+     * @param deploymentId
+     * @return
+     */
+    @RequestMapping(value = "{deploymentId:[\\d]+}/delete", method = RequestMethod.GET)
+    @RequiresPermissions("MANAGE_DEFINITION")
+    @ResponseBody
+    public Map<String, Object> delete(@PathVariable("deploymentId") String deploymentId) {
+        activitiService.deleteProcessDefinition(deploymentId);
+        return super.getResultMap();
+    }
 }

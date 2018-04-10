@@ -25,16 +25,24 @@ public interface ActivitiService {
     Deployment deployProcessDefinition(String zipPath);
 
     /**
+     * 删除流程定义
+     *
+     * @param deploymentId
+     */
+    void deleteProcessDefinition(String deploymentId);
+
+    /**
      * 搜索流程定义
      *
      * @param pageNum
      * @param pageSize
-     * @param id
+     * @param deploymentId
+     * @param definitionId
      * @param name
      * @param key
      * @return
      */
-    PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String id, String name, String key);
+    PageInfo<ProcessDefinition> searchProcessDefinitions(int pageNum, int pageSize, String deploymentId, String definitionId, String name, String key);
 
     /**
      * 启动流程实例
