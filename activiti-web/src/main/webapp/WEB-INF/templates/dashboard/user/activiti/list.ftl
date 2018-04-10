@@ -18,7 +18,7 @@
 
 <form class="form-inline" method="get">
     <div class="form-group">
-        <input type="text" class="form-control" name="serialNo" value="${serialNo}" placeholder="部署流水号"
+        <input type="text" class="form-control" name="serialNo" value="${serialNo}" placeholder="业务流水号"
                autocomplete="off"/>
     </div>
     <div class="form-group">
@@ -41,7 +41,7 @@
 <table id="activiti-table" class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>部署流水号</th>
+        <th>业务流水号</th>
         <th>备注</th>
         <th>状态</th>
         <th>创建时间</th>
