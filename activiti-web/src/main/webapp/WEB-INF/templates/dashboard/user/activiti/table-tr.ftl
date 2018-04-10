@@ -3,6 +3,9 @@
 <tr id="definitionApply-${definitionApply.id}">
     <td>${definitionApply.serialNo}</td>
     <td>${definitionApply.remark}</td>
+    <td>
+        <a href="${ctx}/${definitionApply.zipPath}" target="_blank">${definitionApply.zipName}</a>
+    </td>
     <td><#include "status.ftl"></td>
     <td><@c.relative_date datetime=definitionApply.createdTime/></td>
     <td>

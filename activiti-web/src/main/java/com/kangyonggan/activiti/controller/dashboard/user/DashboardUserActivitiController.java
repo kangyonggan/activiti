@@ -34,7 +34,7 @@ public class DashboardUserActivitiController extends BaseController {
     private DefinitionApplyService definitionApplyService;
 
     /**
-     * 我的待办
+     * 部署列表
      *
      * @param pageNum
      * @param serialNo
