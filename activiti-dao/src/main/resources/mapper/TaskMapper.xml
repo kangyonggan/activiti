@@ -51,12 +51,21 @@
             b.DEPLOYMENT_ID_ AS deploymentId,
             c.START_TIME_ AS startTime,
             c.END_TIME_ AS endTime,
-            c.BUSINESS_KEY_ AS serialNo
+            c.BUSINESS_KEY_ AS serialNo,
+            d.TEXT_ AS replyMsg,
+            e.TEXT_ AS replyUser,
+            f.TEXT_ AS status
         FROM ACT_HI_TASKINST a
         LEFT JOIN ACT_RE_PROCDEF b
           ON a.PROC_DEF_ID_ = b.ID_
         LEFT JOIN ACT_HI_PROCINST c
           ON a.PROC_INST_ID_ = c.ID_
+        LEFT JOIN ACT_HI_VARINST d
+          ON d.NAME_ = CONCAT(a.ID_, ':replyMsg')
+        LEFT JOIN ACT_HI_VARINST e
+          ON e.NAME_ = CONCAT(a.ID_, ':replyUser')
+        LEFT JOIN ACT_HI_VARINST f
+          ON f.NAME_ = CONCAT(a.ID_, ':status')
         <where>
             <if test="serialNo != null and serialNo != ''">
                 c.BUSINESS_KEY_ = #{serialNo}
@@ -72,7 +81,6 @@
             </if>
             AND c.END_TIME_ IS NOT NULL
         </where>
-        GROUP BY instanceId
         ORDER BY c.END_TIME_ DESC
     </select>
 

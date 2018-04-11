@@ -11,7 +11,7 @@
     <td>
     <div class="btn-group">
         <a class="btn btn-xs btn-inverse" href="${ctx}/dashboard/user/activiti/${definitionApply.serialNo}"
-           data-toggle="modal" data-target="#myModal"
+           data-toggle="modal" data-target="#myLargeModal"
            data-backdrop="static">审批历史</a>
 
     <#if definitionApply.status == "BACK">

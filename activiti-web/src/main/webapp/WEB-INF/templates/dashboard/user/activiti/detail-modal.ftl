@@ -19,8 +19,8 @@
                 <tr>
                     <td>${reply.replyUser}</td>
                     <#assign definitionApply=reply/>
-                    <td>${reply.replyMsg}</td>
                     <td><#include "status.ftl"></td>
+                    <td>${reply.replyMsg}</td>
                     <td>${reply.startTime?datetime}</td>
                     <#if reply.endTime??>
                         <td>${reply.endTime?datetime}</td>

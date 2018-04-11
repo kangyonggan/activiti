@@ -5,6 +5,10 @@
     <td>
         <span class="label label-pink arrowed-right">${task.definitionName}</span>
     </td>
+    <td>${task.replyUser!''}</td>
+    <#assign definitionApply=task/>
+    <td><#include "../activiti/status.ftl"/></td>
+    <td>${task.replyMsg!''}</td>
     <td>${task.startTime?datetime}</td>
     <td>${task.endTime?datetime}</td>
     <td>

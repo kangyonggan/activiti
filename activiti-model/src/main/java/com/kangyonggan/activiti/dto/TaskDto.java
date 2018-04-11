@@ -78,4 +78,18 @@ public class TaskDto implements Serializable {
      * 结束时间
      */
     private Date endTime;
+    /**
+     * 审批结果
+     */
+    private String status;
+
+    /**
+     * 审批人
+     */
+    private String replyUser;
+
+    /**
+     * 审批意见
+     */
+    private String replyMsg;
 }

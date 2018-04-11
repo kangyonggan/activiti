@@ -2,13 +2,13 @@ package com.kangyonggan.activiti.controller.dashboard.user;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
+import com.kangyonggan.activiti.constants.Status;
 import com.kangyonggan.activiti.controller.BaseController;
 import com.kangyonggan.activiti.dto.TaskDto;
 import com.kangyonggan.activiti.model.DefinitionApply;
 import com.kangyonggan.activiti.model.Role;
 import com.kangyonggan.activiti.model.User;
 import com.kangyonggan.activiti.service.ActivitiService;
-import com.kangyonggan.activiti.service.DefinitionApplyService;
 import com.kangyonggan.activiti.service.RoleService;
 import com.kangyonggan.activiti.service.UserService;
 import com.kangyonggan.activiti.util.Collections3;
@@ -41,9 +41,6 @@ public class DashboardUserDoneController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DefinitionApplyService definitionApplyService;
-
     /**
      * 我的已办
      *
@@ -63,6 +60,7 @@ public class DashboardUserDoneController extends BaseController {
         PageInfo<TaskDto> page = activitiService.searchHisTasks(pageNum, AppConstants.PAGE_SIZE, definitionKey, serialNo, Collections3.extractToList(roles, "code"));
 
         model.addAttribute("page", page);
+        model.addAttribute("statuses", Status.values());
         return getPathList();
     }
 
