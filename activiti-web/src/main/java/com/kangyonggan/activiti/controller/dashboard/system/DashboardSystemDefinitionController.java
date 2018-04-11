@@ -1,4 +1,4 @@
-package com.kangyonggan.activiti.controller.dashboard.manage;
+package com.kangyonggan.activiti.controller.dashboard.system;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.constants.AppConstants;
@@ -18,14 +18,14 @@ import java.util.Map;
  * @date 4/10/18
  */
 @Controller
-@RequestMapping("dashboard/manage/definition")
-public class DashboardManageDefinitionController extends BaseController {
+@RequestMapping("dashboard/system/definition")
+public class DashboardSystemDefinitionController extends BaseController {
 
     @Autowired
     private ActivitiService activitiService;
 
     /**
-     * 流程定义
+     * 部署管理
      *
      * @param pageNum
      * @param deploymentId
@@ -36,7 +36,7 @@ public class DashboardManageDefinitionController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    @RequiresPermissions("MANAGE_DEFINITION")
+    @RequiresPermissions("SYSTEM_DEFINITION")
     public String list(@RequestParam(value = "p", required = false, defaultValue = "1") int pageNum,
                        @RequestParam(value = "deploymentId", required = false, defaultValue = "") String deploymentId,
                        @RequestParam(value = "definitionId", required = false, defaultValue = "") String definitionId,
@@ -55,7 +55,7 @@ public class DashboardManageDefinitionController extends BaseController {
      * @return
      */
     @RequestMapping(value = "{deploymentId:[\\d]+}/delete", method = RequestMethod.GET)
-    @RequiresPermissions("MANAGE_DEFINITION")
+    @RequiresPermissions("SYSTEM_DEFINITION")
     @ResponseBody
     public Map<String, Object> delete(@PathVariable("deploymentId") String deploymentId) {
         activitiService.deleteProcessDefinition(deploymentId);

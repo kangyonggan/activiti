@@ -1,5 +1,5 @@
 $(function () {
-    updateState("manage/definition");
+    updateState("system/definition");
 
     var $table = $('#definition-table');
 
@@ -13,7 +13,7 @@ $(function () {
             $.get(url).success(function (response) {
                 response = eval('(' + response + ')');
                 if (response.respCo == '0000') {
-                    window.location.hash = "manage/definition?r=" + Math.random();
+                    window.location.hash = "system/definition?r=" + Math.random();
                     Message.success(response.respMsg);
                 } else {
                     Message.error(response.respMsg);

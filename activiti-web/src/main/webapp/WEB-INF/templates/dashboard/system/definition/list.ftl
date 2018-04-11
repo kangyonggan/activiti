@@ -6,7 +6,7 @@
 
 <div class="page-header">
     <h1>
-        流程定义列表
+        部署列表
     </h1>
 </div>
 
@@ -60,6 +60,6 @@
     </#if>
     </tbody>
 </table>
-<@c.pagination url="${ctx}/dashboard#manage/definition" param="deploymentId=${deploymentId}&definitionId=${definitionId}&name=${name}&key=${key}"/>
+<@c.pagination url="${ctx}/dashboard#system/definition" param="deploymentId=${deploymentId}&definitionId=${definitionId}&name=${name}&key=${key}"/>
 
-<script src="${ctx}/static/app/js/dashboard/manage/definition/list.js"></script>
+<script src="${ctx}/static/app/js/dashboard/system/definition/list.js"></script>

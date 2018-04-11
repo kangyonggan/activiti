@@ -264,6 +264,7 @@ VALUES
   ('SYSTEM_ROLE', '角色管理', 'SYSTEM', 'system/role', 1, ''),
   ('SYSTEM_MENU', '菜单管理', 'SYSTEM', 'system/menu', 2, ''),
   ('SYSTEM_CACHE', '缓存管理', 'SYSTEM', 'system/cache', 3, ''),
+  ('SYSTEM_DEFINITION', '部署管理', 'SYSTEM', 'system/definition', 4, ''),
   ('SYSTEM_SQL', '执行脚本', 'SYSTEM', 'system/sql', 5, ''),
 
   ('MONITOR', '监控', 'DASHBOARD', 'monitor', 3, 'menu-icon fa fa-laptop'),
