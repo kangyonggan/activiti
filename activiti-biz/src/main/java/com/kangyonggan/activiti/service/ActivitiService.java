@@ -2,6 +2,7 @@ package com.kangyonggan.activiti.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kangyonggan.activiti.dto.TaskDto;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
@@ -72,6 +73,14 @@ public interface ActivitiService {
      * @return
      */
     Map<String, Object> findTaskVariables(String taskId);
+
+    /**
+     * 根据业务主键查找实例
+     *
+     * @param businessKey
+     * @return
+     */
+    HistoricProcessInstance findHiProcInstByBussnessKey(String businessKey);
 
     /**
      * 获取历史流程变量

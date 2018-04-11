@@ -9,8 +9,8 @@ import com.kangyonggan.activiti.util.MyPageInfo;
 import com.kangyonggan.activiti.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
-import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
@@ -118,6 +117,11 @@ public class ActivitiServiceImpl implements ActivitiService {
     @Override
     public Map<String, Object> findTaskVariables(String taskId) {
         return processEngine.getTaskService().getVariables(taskId);
+    }
+
+    @Override
+    public HistoricProcessInstance findHiProcInstByBussnessKey(String businessKey) {
+        return processEngine.getHistoryService().createHistoricProcessInstanceQuery().processInstanceBusinessKey(businessKey).singleResult();
     }
 
     @Override

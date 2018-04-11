@@ -25,6 +25,7 @@ public class DateUtil {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss.SSS");
+    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static String toXmlDateTime(Date date) {
         synchronized (DATE_FORMAT) {
@@ -171,4 +172,15 @@ public class DateUtil {
         }
     }
 
+    /**
+     * 转为yyyy-MM-dd HH:mm:ss
+     *
+     * @param date
+     * @return
+     */
+    public static String toFullDate(Date date) {
+        synchronized (DATE_TIME_FORMAT) {
+            return DATE_TIME_FORMAT.format(date);
+        }
+    }
 }

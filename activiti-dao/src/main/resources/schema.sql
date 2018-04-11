@@ -272,9 +272,9 @@ VALUES
   ('MONITOR_OPERATE', '操作日志', 'MONITOR', 'monitor/operate', 1, ''),
 
   ('USER', '我的', 'DASHBOARD', 'user', 4, 'menu-icon fa fa-user'),
-  ('USER_TODO', '我的待办', 'USER', 'user/todo', 0, ''),
-  ('USER_DONE', '我的已办', 'USER', 'user/done', 1, ''),
-  ('USER_ACTIVITI', '部署工作流', 'USER', 'user/activiti', 2, ''),
+  ('USER_ACTIVITI', '部署工作流', 'USER', 'user/activiti', 0, ''),
+  ('USER_TODO', '我的待办', 'USER', 'user/todo', 1, ''),
+  ('USER_DONE', '我的已办', 'USER', 'user/done', 2, ''),
   ('USER_INFO', '基本信息', 'USER', 'user/info', 3, '');
 
 -- ----------------------------
